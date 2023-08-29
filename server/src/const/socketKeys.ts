@@ -1,4 +1,4 @@
 export const SOCKET_KEYS = {
-   joinUser:"joinUser",
-   disconnect:"disconnect"
-  };
+  joinUser: 'joinUser',
+  disconnect: 'disconnect'
+}

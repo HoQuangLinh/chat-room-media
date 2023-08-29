@@ -1,4 +1,4 @@
-import { IResponse } from '../interface/common'
+import { IResponse } from '../interfaces/common'
 
 function customResponse(res: IResponse): IResponse {
   // Add a success method
