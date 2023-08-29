@@ -1,13 +1,15 @@
-import { createBrowserRouter } from "react-router-dom";
-import PrivateRoute from "./PrivateRoute";
-import HomeLayout from "@/layout/HomeLayout";
-import Home from "@/pages/home";
-import Login from "@/pages/login";
-import Register from "@/pages/register";
+import HomeLayout from '@/layout/HomeLayout'
+import Home from '@/pages/home'
+import Login from '@/pages/login'
+import { createBrowserRouter } from 'react-router-dom'
+import AuthLayout from '../layout/AuthLayout'
+import Register from '../pages/register'
+import AuthenticatorRoute from './AuthenRoute'
+import PrivateRoute from './PrivateRoute'
 
 export const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: (
       <PrivateRoute>
         <HomeLayout></HomeLayout>
@@ -16,17 +18,26 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />,
+        element: <Home />
+      }
+    ]
+  },
+  {
+    path: '/',
+    element: (
+      <AuthenticatorRoute>
+        <AuthLayout></AuthLayout>
+      </AuthenticatorRoute>
+    ),
+    children: [
+      {
+        path: '/login',
+        element: <Login />
       },
-    ],
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/register",
-    element: <Register />,
-  },
- 
-]);
+      {
+        path: '/register',
+        element: <Register />
+      }
+    ]
+  }
+])

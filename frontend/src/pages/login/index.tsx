@@ -16,8 +16,8 @@ const Login = () => {
 
   return (
     <form onSubmit={onSubmit} className='w-[480px] rounded-[5px] bg-greyCt p-8'>
-      <h2 className='text-center text-2xl font-semibold text-whiteCt'>Welcome back!</h2>
-      <Input name='username' control={control} type='text' label='Email' error={errors.username?.message} />
+      <h2 className='text-center text-2xl font-semibold text-whiteCt'>BEE ZOOM</h2>
+      <Input name='username' control={control} type='text' label='Username' error={errors.username?.message} />
       <Input name='password' control={control} type='password' label='Password' error={errors.password?.message} />
 
       <input
