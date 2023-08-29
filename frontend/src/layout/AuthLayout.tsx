@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom'
 const AuthLayout = () => {
   return (
     <Suspense fallback={<BiLoader />}>
-      <div className='fixed top-0 flex h-full w-full items-center justify-center'>
+      <div className='fixed top-0 flex h-full w-full bg-blackCt items-center justify-center'>
         <Outlet />
       </div>
     </Suspense>

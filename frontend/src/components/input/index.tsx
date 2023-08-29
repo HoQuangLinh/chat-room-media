@@ -1,7 +1,7 @@
 import React from 'react'
 import { Control, Controller, FieldValues, Path } from 'react-hook-form'
 
-interface Option {
+interface IOption {
   value: string
   label: string
 }
@@ -13,7 +13,7 @@ interface InputProps<T extends FieldValues> {
   label?: string
   placeholder?: string
   error?: string
-  options?: Option[]
+  options?: IOption[]
 }
 type TInputElement = {
   onChange: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>

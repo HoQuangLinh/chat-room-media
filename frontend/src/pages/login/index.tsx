@@ -20,10 +20,10 @@ const Login = () => {
       <Input name='username' control={control} type='text' label='Username' error={errors.username?.message} />
       <Input name='password' control={control} type='password' label='Password' error={errors.password?.message} />
 
-      <input
+      <button
         type='submit'
         className='mt-4 w-full cursor-pointer rounded-[3px] bg-primary py-3 px-3 font-medium text-whiteCt transition-all hover:tracking-[2px]'
-      />
+      >Login</button>
       <div className='mt-3 block text-center text-sm font-medium text-greyTextCt'>
         Need an account?
         <Link to={'/Register'} className='ml-1 cursor-pointer text-[#00a8fc] hover:text-[#2eb9ff]'>
