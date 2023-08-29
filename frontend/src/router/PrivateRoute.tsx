@@ -5,7 +5,7 @@ interface IPrivateRouteProps {
   children: ReactElement
 }
 const PrivateRoute = (props: IPrivateRouteProps) => {
-  const [isLogin, setIsLogin] = useState(false)
+  const [isLogin, setIsLogin] = useState(true)
   const { children } = props
   if (!isLogin) {
     return <Navigate to={'/login'} />
