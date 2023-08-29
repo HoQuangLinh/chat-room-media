@@ -4,7 +4,7 @@ import Login from '@/pages/login'
 import { createBrowserRouter } from 'react-router-dom'
 import AuthLayout from '../layout/AuthLayout'
 import Register from '../pages/register'
-import AuthenticatorRoute from './AuthenRoute'
+import AuthenticatorRoute from './AuthenticatorRoute'
 import PrivateRoute from './PrivateRoute'
 
 export const router = createBrowserRouter([

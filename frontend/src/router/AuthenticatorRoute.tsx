@@ -6,8 +6,8 @@ interface IAuthenticatorRouteProps {
 }
 const AuthenticatorRoute: React.FC<IAuthenticatorRouteProps> = (props) => {
   const { children } = props
-  const [isAuthenticated,]=useState(false)
-  
-  return  isAuthenticated?<Navigate to={'/'}/>: children 
+  const [isAuthenticated] = useState(false)
+
+  return isAuthenticated ? <Navigate to={'/'} /> : children
 }
 export default AuthenticatorRoute
