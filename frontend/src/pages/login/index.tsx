@@ -9,7 +9,7 @@ const Login = () => {
     control,
     formState: { errors }
   } = useForm<IFormLogin>()
-
+  
   const onSubmit = handleSubmit((data) => {
     console.log(data)
   })
@@ -24,12 +24,18 @@ const Login = () => {
         control={control}
         type='text'
         label='Username'
+        rules={{
+          required: 'Username is required'
+        }}
         error={errors.username?.message}
       />
       <Input
         name='password'
         control={control}
         type='password'
+        rules={{
+          required: 'Password is required'
+        }}
         label='Password'
         error={errors.password?.message}
       />

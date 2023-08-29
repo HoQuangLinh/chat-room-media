@@ -6,7 +6,8 @@ const Register = () => {
   const {
     handleSubmit,
     control,
-    formState: { errors }
+    formState: { errors },
+    getValues
   } = useForm<IFormRegister>()
 
   const onSubmit = handleSubmit((data) => {
@@ -15,12 +16,17 @@ const Register = () => {
 
   return (
     <form onSubmit={onSubmit} className='w-[480px] rounded-[5px] bg-greyCt p-8'>
-      <h2 className='text-center text-2xl font-semibold text-whiteCt'>BEE ZOOM</h2>
+      <h2 className='text-center text-2xl font-semibold text-whiteCt'>
+        BEE ZOOM
+      </h2>
       <Input
         name='username'
         control={control}
         type='text'
         label='Username'
+        rules={{
+          required: 'Username is required'
+        }}
         error={errors.username?.message}
       />
       <Input
@@ -28,6 +34,9 @@ const Register = () => {
         control={control}
         type='password'
         label='Password'
+        rules={{
+          required: 'Password is required'
+        }}
         error={errors.password?.message}
       />
       <Input
@@ -35,6 +44,14 @@ const Register = () => {
         control={control}
         type='text'
         label='Confirm Password'
+        rules={{
+          required: 'Confirm Password is required',
+          validate: (value) => {
+            if (value !== getValues('password')) {
+              return 'Password not match'
+            }
+          }
+        }}
         error={errors.confirmPassword?.message}
       />
 

@@ -1,5 +1,11 @@
 import React from 'react'
-import { Control, Controller, FieldValues, Path } from 'react-hook-form'
+import {
+  Control,
+  Controller,
+  FieldValues,
+  Path,
+  RegisterOptions
+} from 'react-hook-form'
 
 interface IOption {
   value: string
@@ -14,6 +20,10 @@ interface InputProps<T extends FieldValues> {
   placeholder?: string
   error?: string
   options?: IOption[]
+  rules?: Omit<
+    RegisterOptions<T, Path<T>>,
+    'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
+  >
   onChange?: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>
 }
 type TInputElement = {
@@ -29,6 +39,7 @@ const Input = <T extends FieldValues>(props: InputProps<T>) => {
     placeholder,
     error,
     options,
+    rules,
     onChange
   } = props
 
@@ -69,8 +80,8 @@ const Input = <T extends FieldValues>(props: InputProps<T>) => {
           <input
             id={name}
             {...inputProps}
-            onChange={(e)=>{
-              onChange&& onChange(e);
+            onChange={(e) => {
+              onChange && onChange(e)
               inputProps.onChange(e)
             }}
             type={type}
@@ -85,6 +96,7 @@ const Input = <T extends FieldValues>(props: InputProps<T>) => {
     <Controller
       name={name}
       control={control}
+      rules={rules}
       render={({ field }) => (
         <div className='block'>
           {label && (
