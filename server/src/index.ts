@@ -7,7 +7,7 @@ import express, { NextFunction, Request, Response } from 'express'
 import mongoose, { ConnectOptions } from 'mongoose'
 import { Socket } from 'socket.io'
 import { IResponse } from './interfaces/common'
-import customResponse from './middlewares/customResponse'
+import customResponse from './middleware/customResponse'
 
 const app = express()
 
