@@ -5,12 +5,11 @@ import Sidebar from '../components/sidebar'
 const HomeLayout = () => {
   return (
     <div>
-      <Header />
-      <div>
-        <div>
+      <div className='flex h-screen'>
+        <div >
           <Sidebar />
         </div>
-        <div>
+        <div className='ml-64 '>
           <Outlet />
         </div>
       </div>
