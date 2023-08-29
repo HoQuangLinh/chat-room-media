@@ -14,13 +14,23 @@ interface InputProps<T extends FieldValues> {
   placeholder?: string
   error?: string
   options?: IOption[]
+  onChange?: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>
 }
 type TInputElement = {
   onChange: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>
   value: string
 }
 const Input = <T extends FieldValues>(props: InputProps<T>) => {
-  const { name, control, type = 'text', label, placeholder, error, options } = props
+  const {
+    name,
+    control,
+    type = 'text',
+    label,
+    placeholder,
+    error,
+    options,
+    onChange
+  } = props
 
   const renderInputElement = (inputProps: TInputElement) => {
     switch (type) {
@@ -35,7 +45,10 @@ const Input = <T extends FieldValues>(props: InputProps<T>) => {
                   {...inputProps}
                   checked={option.value === inputProps.value}
                 />
-                <label htmlFor={`${name}-${option.value}`} className='ml-2 text-whiteCt'>
+                <label
+                  htmlFor={`${name}-${option.value}`}
+                  className='ml-2 text-whiteCt'
+                >
                   {option.label}
                 </label>
               </div>
@@ -56,6 +69,10 @@ const Input = <T extends FieldValues>(props: InputProps<T>) => {
           <input
             id={name}
             {...inputProps}
+            onChange={(e)=>{
+              onChange&& onChange(e);
+              inputProps.onChange(e)
+            }}
             type={type}
             placeholder={placeholder}
             className='w-full rounded-[3px] bg-blackCt p-[10px] text-whiteCt'
