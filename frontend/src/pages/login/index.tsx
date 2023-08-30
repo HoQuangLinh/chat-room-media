@@ -17,7 +17,7 @@ const Login = () => {
   return (
     <form onSubmit={onSubmit} className='w-[480px] rounded-[5px] bg-greyCt p-8'>
       <h2 className='text-center text-2xl font-semibold text-whiteCt'>
-        BEE ZOOM
+        ZOOM BEE 
       </h2>
       <Input
         name='username'
