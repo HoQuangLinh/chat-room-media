@@ -10,7 +10,7 @@ import { Socket } from 'socket.io'
 
 import { IResponse } from './interfaces/common'
 import customResponse from './middleware/customResponse'
-import apiRouter from './router/v1/apiRouter'
+import apiRouterV1 from './router/v1/apiRouter'
 
 const app = express()
 
@@ -44,7 +44,7 @@ app.use(
     res.status(500).json({ error: err.message })
   }
 )
-app.use('/api', apiRouter)
+app.use('/api', apiRouterV1)
 const mongoUrl = process.env.MONGODB_URL
 if (mongoUrl) {
   mongoose

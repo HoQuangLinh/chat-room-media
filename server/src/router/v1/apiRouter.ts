@@ -1,8 +1,8 @@
 import express from 'express'
-
-const apiRouter = express.Router()
-import authRouter from './authRouter'
 import { PATH } from '../../const/path'
+import authRouter from './authRouter'
 
-apiRouter.use(PATH.auth, authRouter)
-export default apiRouter
+const apiRouterV1 = express.Router()
+
+apiRouterV1.use(PATH.auth, authRouter)
+export default apiRouterV1
