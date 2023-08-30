@@ -15,13 +15,19 @@ export default class AuthService {
     if (!username || !password) {
       throw new Error('username or password not found')
     }
+
     const user = await UserModel.findOne({
-      username: username,
-      password: password
+      username: username
     })
+
     if (!user) {
+      throw new Error('username not found')
+    }
+    const isMatch = await bcrypt.compare(password, user.password)
+    if (!isMatch) {
       throw new Error('username or password not correct')
     }
+
     const payload = { userId: user._id }
     const token = this.jwtService.generateAccessToken(payload)
     return token
