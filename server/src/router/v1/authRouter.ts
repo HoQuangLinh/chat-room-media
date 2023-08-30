@@ -1,11 +1,22 @@
 // @ts-nocheck
 import express from 'express'
-import authController from '../../controllers/auth.controller'
+import 'reflect-metadata'
+import { container } from 'tsyringe'
+import AuthController from '../../controllers/auth.controller'
+import { catchAsync } from '../../middleware/catchAsync'
+const authController =
+  container.resolve<AuthController>(AuthController)
 
 const authRouter = express.Router()
 
-authRouter.post('/register', authController.register)
+authRouter.post(
+  '/register',
+  catchAsync(authController.register.bind(authController))
+)
 
-authRouter.get('/register1', authController.register)
+authRouter.post(
+  '/login',
+  catchAsync(authController.login.bind(authController))
+)
 
 export default authRouter

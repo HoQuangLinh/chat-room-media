@@ -1,4 +1,5 @@
 import * as dotenv from 'dotenv'
+import 'reflect-metadata'
 import SocketServer from './socketServer'
 dotenv.config()
 
