@@ -6,8 +6,10 @@ import cors from 'cors'
 import express, { NextFunction, Request, Response } from 'express'
 import mongoose, { ConnectOptions } from 'mongoose'
 import { Socket } from 'socket.io'
+
 import { IResponse } from './interfaces/common'
 import customResponse from './middleware/customResponse'
+import apiRouter from './router/v1/apiRouter'
 
 const app = express()
 
@@ -33,13 +35,15 @@ app.use(function (req: Request, res: Response, next: NextFunction) {
   next()
 })
 app.get('/', (req: Request, res: Response) => {
-  return res.send('hello')
+  return (res as IResponse).success('Hello')
 })
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  res.status(500).json({ error: err.message })
-})
-
+app.use(
+  (err: Error, req: Request, res: Response, next: NextFunction) => {
+    res.status(500).json({ error: err.message })
+  }
+)
+app.use('/api', apiRouter)
 const mongoUrl = process.env.MONGODB_URL
 if (mongoUrl) {
   mongoose
