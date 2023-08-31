@@ -1,5 +1,5 @@
-import Input from '@/components/input'
-import { IFormRegister } from '@/interfaces/Form'
+import Input from '@/components/Input'
+import { IFormRegister } from '@/interfaces/auth/Auth'
 import { useForm } from 'react-hook-form'
 
 const Register = () => {
@@ -17,7 +17,7 @@ const Register = () => {
   return (
     <form onSubmit={onSubmit} className='w-[480px] rounded-[5px] bg-greyCt p-8'>
       <h2 className='text-center text-2xl font-semibold text-whiteCt'>
-       ZOOM BEE 
+        ZOOM BEE
       </h2>
       <Input
         name='username'

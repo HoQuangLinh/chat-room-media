@@ -1,5 +1,5 @@
 import HomeLayout from '@/layout/HomeLayout'
-import Home from '@/pages/home'
+import Manager from '@/pages/manager'
 import Login from '@/pages/login'
 import { createBrowserRouter } from 'react-router-dom'
 import { path } from '../const/path'
@@ -21,7 +21,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home />
+        element: <Manager />
       },
       {
         path: path.rooms,

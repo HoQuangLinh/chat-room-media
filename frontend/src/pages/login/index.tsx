@@ -1,5 +1,5 @@
-import Input from '@/components/input'
-import { IFormLogin } from '@/interfaces/Form'
+import Input from '@/components/Input'
+import { IFormLogin } from '@/interfaces/auth/Auth'
 import { authService } from '@/services/authService'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'

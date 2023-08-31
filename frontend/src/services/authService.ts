@@ -1,5 +1,5 @@
 import { authEndpoint } from '@/const/apiEndpoint'
-import { IFormLogin, IFormRegister } from '@/interfaces/Form'
+import { IFormLogin, IFormRegister } from '@/interfaces/auth/Auth'
 import { IApiResponse } from '@/interfaces/api/Http'
 import http from './httpService'
 

@@ -1,15 +1,14 @@
-import Header from '@/components/header'
+import Sidebar from '@/components/Sidebar'
 import { Outlet } from 'react-router-dom'
-import Sidebar from '../components/sidebar'
 
 const HomeLayout = () => {
   return (
     <div>
       <div className='flex h-screen'>
-        <div >
+        <div>
           <Sidebar />
         </div>
-        <div className='ml-64 '>
+        <div className='ml-64 w-full '>
           <Outlet />
         </div>
       </div>

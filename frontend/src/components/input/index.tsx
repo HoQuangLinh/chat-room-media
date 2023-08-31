@@ -47,13 +47,17 @@ const Input = <T extends FieldValues>(props: InputProps<T>) => {
     switch (type) {
       case 'radio':
         return (
-          <div className='flex items-center justify-between'>
+          <div className='flex items-center '>
             {options?.map((option) => (
-              <div key={option.value}>
+              <div className='ml-4' key={option.value}>
                 <input
                   type='radio'
                   id={`${name}-${option.value}`}
                   {...inputProps}
+                  onChange={(e) => {
+                    onChange && onChange(e)
+                    inputProps.onChange(e)
+                  }}
                   checked={option.value === inputProps.value}
                 />
                 <label
