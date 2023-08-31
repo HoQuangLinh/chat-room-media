@@ -48,17 +48,18 @@ const Input = <T extends FieldValues>(props: InputProps<T>) => {
       case 'radio':
         return (
           <div className='flex items-center '>
-            {options?.map((option) => (
+            {options?.map((option, index) => (
               <div className='ml-4' key={option.value}>
                 <input
                   type='radio'
                   id={`${name}-${option.value}`}
                   {...inputProps}
+                  value={option.value}
                   onChange={(e) => {
                     onChange && onChange(e)
                     inputProps.onChange(e)
                   }}
-                  checked={option.value === inputProps.value}
+                  checked={option.value === inputProps.value || index === 0}
                 />
                 <label
                   htmlFor={`${name}-${option.value}`}
