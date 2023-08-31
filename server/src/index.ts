@@ -10,7 +10,7 @@ import { Socket } from 'socket.io'
 
 import { IResponse } from './interfaces/common'
 import customResponse from './middleware/customResponse'
-import apiRouterV1 from './router/v1/apiRouter'
+import apiRouterV1 from './router/v1/api.router'
 
 const app = express()
 

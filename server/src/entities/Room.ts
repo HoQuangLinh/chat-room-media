@@ -16,6 +16,8 @@ const roomSchema = new mongoose.Schema(
       enum: ['public', 'private'],
       default: 'public'
     },
+    sendingRequests: [{ type: mongoose.Types.ObjectId, ref: 'user' }],
+    receiveRequests: [{ type: mongoose.Types.ObjectId, ref: 'user' }],
     avatar: {
       type: String
     }
