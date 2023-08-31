@@ -1,9 +1,9 @@
-import { TListMenu } from '@/interfaces/ListMenu'
+import { IMenuItem } from '@/interfaces/ListMenu'
 import { IoMdAdd } from 'react-icons/io'
 import { AiFillHome, AiOutlineFile } from 'react-icons/ai'
 import { BiGroup } from 'react-icons/bi'
 import { path } from '../../const/path'
-export const listMenu: TListMenu[] = [
+export const initializeListMenu: IMenuItem[] = [
   {
     icon: AiFillHome,
     title: 'Manager',
@@ -18,6 +18,15 @@ export const listMenu: TListMenu[] = [
   {
     icon: BiGroup,
     title: 'Rooms',
-    path: path.rooms
+    children: [
+      {
+        title: 'Room1',
+        path: path.rooms
+      },
+      {
+        title: 'Room2',
+        path: path.rooms
+      }
+    ]
   }
 ]
