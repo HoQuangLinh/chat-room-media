@@ -41,7 +41,7 @@ const NewRoom = () => {
 
       <input
         type='submit'
-        value='Create room'
+        value='Next'
         className='mt-4 w-full cursor-pointer rounded-[3px] bg-primary py-3 px-3 font-medium text-whiteCt '
       />
     </form>
