@@ -16,17 +16,21 @@ const MenuItem: FC<IMenuItemProps> = (props) => {
           navigate(item.path)
         }
       }}
-      //   to={item.path || ''}
-      className={`relative flex w-full  items-center rounded-md px-2 font-semibold ${
-        !item.children && ' cursor-pointer hover:bg-greyCt'
+      className={`relative select-none rounded-md px-2 font-semibold ${
+        !item.children && 'cursor-pointer hover:bg-greyCt'
       } ${
         item.title === 'Home' ? 'text-whiteCt' : 'text-greyLabelCt'
       } ${className} `}
     >
-      {item.icon && <item.icon className='text-xl' />}
-      <div className={`${isChildren ? 'py-2' : 'py-3'} px-2`}>{item.title}</div>
+      <div className='flex w-full items-center'>
+        {item.icon && <item.icon className='text-xl' />}
+        <div className={`${isChildren ? 'py-2' : 'py-3'} px-2`}>
+          {item.title}
+        </div>
+      </div>
+
       {item.children && (
-        <div className='absolute top-10 left-8 mb-2 '>
+        <div className='ml-4 mb-2 '>
           {item.children.map((childItem) => {
             return <MenuItem isChildren item={childItem} />
           })}
