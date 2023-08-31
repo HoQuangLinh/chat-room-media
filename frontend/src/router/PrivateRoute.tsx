@@ -1,13 +1,14 @@
 import { ReactElement, useState } from 'react'
 import { Navigate } from 'react-router-dom'
+import { useRootSelector } from '@/redux/reducers'
 
 interface IPrivateRouteProps {
   children: ReactElement
 }
 const PrivateRoute = (props: IPrivateRouteProps) => {
-  const [isLogin, setIsLogin] = useState(true)
+  const user = useRootSelector((item) => item.user)
   const { children } = props
-  if (!isLogin) {
+  if (!user || !user.isAuthenticated) {
     return <Navigate to={'/login'} />
   }
 

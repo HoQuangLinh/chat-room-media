@@ -1,23 +1,36 @@
 import Input from '@/components/input'
 import { IFormLogin } from '@/interfaces/Form'
+import { authService } from '@/services/authService'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
+import { keyStorage } from '../../const/keyStorage'
+import { useDispatch } from 'react-redux'
+import { setIsAuthenticate } from '../../redux/reducers/user.reducer'
 
 const Login = () => {
+  const dispatch = useDispatch()
   const {
     handleSubmit,
     control,
     formState: { errors }
   } = useForm<IFormLogin>()
-  
+
   const onSubmit = handleSubmit((data) => {
-    console.log(data)
+    authService
+      .login(data)
+      .then((accessToken) => {
+        localStorage.setItem(keyStorage.accessToken, accessToken)
+        dispatch(setIsAuthenticate(true))
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   })
 
   return (
     <form onSubmit={onSubmit} className='w-[480px] rounded-[5px] bg-greyCt p-8'>
       <h2 className='text-center text-2xl font-semibold text-whiteCt'>
-        ZOOM BEE 
+        ZOOM BEE
       </h2>
       <Input
         name='username'

@@ -1,14 +1,18 @@
-import { authEndpoint } from '../const/apiEndpoint'
-import { IFormLogin, IFormRegister } from '../interfaces/Form'
+import { authEndpoint } from '@/const/apiEndpoint'
+import { IFormLogin, IFormRegister } from '@/interfaces/Form'
+import { IApiResponse } from '@/interfaces/api/Http'
 import http from './httpService'
 
 class AuthService {
-  async login(user: IFormLogin) {
-    const res = await http.post(authEndpoint.login, user)
+  async login(user: IFormLogin): Promise<string> {
+    const res = await http.post<IApiResponse<string>>(authEndpoint.login, user)
     return res.data.data
   }
-  async register(user: IFormRegister) {
-    const res = await http.post(authEndpoint.register, user)
+  async register(user: IFormRegister): Promise<string> {
+    const res = await http.post<IApiResponse<string>>(
+      authEndpoint.register,
+      user
+    )
     return res.data.data
   }
 }
