@@ -1,0 +1,21 @@
+
+// Create room
+POST  http://localhost:5000/api/room/createRoom
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGVmMWQxMjg5MmMyOTJkY2U5NDU4ZjIiLCJpYXQiOjE2OTM1Nzg3NDAsImV4cCI6MTY5NDQ0Mjc0MH0.5yAuQKNAHoQf7XmKxOJCeKra3_ZGKIAbJsqO1BscmRw
+Content-Type:  application/json
+
+{
+     "name": "Test room1",
+  "visibility": "public"
+}
+
+
+###
+GET   http://localhost:5000/api/room/getMyRooms
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGVmMWQxMjg5MmMyOTJkY2U5NDU4ZjIiLCJpYXQiOjE2OTM1Nzg3NDAsImV4cCI6MTY5NDQ0Mjc0MH0.5yAuQKNAHoQf7XmKxOJCeKra3_ZGKIAbJsqO1BscmRw
+
+
+###
+GET   http://localhost:5000/api/room/getMyOwnerRooms
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGVmMWQxMjg5MmMyOTJkY2U5NDU4ZjIiLCJpYXQiOjE2OTM1Nzg3NDAsImV4cCI6MTY5NDQ0Mjc0MH0.5yAuQKNAHoQf7XmKxOJCeKra3_ZGKIAbJsqO1BscmRw
+

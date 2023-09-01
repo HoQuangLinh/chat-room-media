@@ -16,8 +16,8 @@ const roomSchema = new mongoose.Schema(
       enum: ['public', 'private'],
       default: 'public'
     },
-    sendingRequests: [{ type: mongoose.Types.ObjectId, ref: 'user' }],
-    receiveRequests: [{ type: mongoose.Types.ObjectId, ref: 'user' }],
+    members: [{ type: mongoose.Types.ObjectId, ref: 'user' }],
+
     avatar: {
       type: String
     }
@@ -27,4 +27,5 @@ const roomSchema = new mongoose.Schema(
   }
 )
 
-module.exports = mongoose.model('room', roomSchema)
+const RoomModel = mongoose.model('room', roomSchema)
+export default RoomModel

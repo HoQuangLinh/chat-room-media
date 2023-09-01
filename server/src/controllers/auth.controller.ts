@@ -4,7 +4,7 @@ import {
   IUserRegisterRequestDTO,
   IUserRequestDTO
 } from '../interfaces/dto/UserDTO'
-import AuthService from '../services/auth.Service'
+import AuthService from '../services/auth.service'
 
 @injectable()
 export class AuthController {

@@ -1,5 +1,8 @@
 import { Request, Response } from 'express'
-export interface IRequest extends Request {}
+import { IUserRegisterRequestDTO } from '../dto/UserDTO'
+export interface IRequest extends Request {
+  user: any
+}
 export interface IResponse extends Response {
   success<T>(data: T): IResponse
   error(

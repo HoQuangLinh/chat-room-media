@@ -3,6 +3,5 @@ export interface ICreateRoomRequestDTO {
   name: string
   creator: string
   visibility: TVisibility
-  sendingRequests?: string[]
-  receiveRequests?: string[]
+  members?: string[]
 }
