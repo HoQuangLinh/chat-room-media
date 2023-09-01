@@ -22,15 +22,18 @@ body {
   line-height: 1.5;
 }
 
-.scroll-ruler::-webkit-scrollbar {
+.scroll-ruler::-webkit-scrollbar,
+#multiselectContainerReact .optionContainer::-webkit-scrollbar {
   width: 8px;
   height: 16px;
 }
-.scroll-ruler::-webkit-scrollbar-thumb {
+.scroll-ruler::-webkit-scrollbar-thumb,
+#multiselectContainerReact .optionContainer::-webkit-scrollbar-thumb {
   background-color: #6e6f70;
   border-radius: 10px;
 }
-.scroll-ruler::-webkit-scrollbar-track {
+.scroll-ruler::-webkit-scrollbar-track,
+#multiselectContainerReact .optionContainer::-webkit-scrollbar-track {
   border-color: #26282c;
 }
 
@@ -52,4 +55,27 @@ body {
   background-color: #1cbee2;
   color: #fceee2;
   transition: all 0.1s ease-out;
+}
+
+#multiselectContainerReact .chip {
+  background-color: #6e6f70;
+}
+
+#multiselectContainerReact .optionListContainer {
+  margin-top: 6px;
+  background-color: #313338;
+}
+#multiselectContainerReact .search-wrapper {
+  background-color: #1e1f22;
+  color: #f2f3f5;
+  border: 0;
+}
+#multiselectContainerReact .option {
+  color: #f2f3f5;
+}
+#multiselectContainerReact .option:hover {
+  background-color: #404249;
+}
+.multiSelectContainer ul {
+  border: 0 !important;
 }

@@ -6,6 +6,7 @@ import {
   Path,
   RegisterOptions
 } from 'react-hook-form'
+import { Multiselect } from 'multiselect-react-dropdown'
 
 interface IOption {
   value: string
@@ -15,7 +16,7 @@ interface IOption {
 interface InputProps<T extends FieldValues> {
   name: Path<T>
   control: Control<T>
-  type?: 'text' | 'password' | 'radio' | 'textarea'
+  type?: 'text' | 'password' | 'radio' | 'textarea' | 'multiselect'
   label?: string
   placeholder?: string
   error?: string
@@ -78,6 +79,21 @@ const Input = <T extends FieldValues>(props: InputProps<T>) => {
             {...inputProps}
             placeholder={placeholder}
             className='w-full bg-blackBgCt p-[10px] text-whiteCt'
+          />
+        )
+      case 'multiselect':
+        return (
+          <Multiselect
+            options={options}
+            displayValue='label'
+            showCheckbox={true}
+            hidePlaceholder={true}
+            closeOnSelect={false}
+            onSelect={onChange}
+            onRemove={onChange}
+            selectedValues={inputProps.value}
+            avoidHighlightFirstOption={true}
+            closeIcon='cancel'
           />
         )
       default:
