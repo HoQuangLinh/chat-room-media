@@ -1,5 +1,5 @@
 import Input from '@/components/Input'
-import { IFormRegister } from '@/interfaces/auth/Auth'
+import { IFormRegister } from '@/interfaces/form/auth/Auth'
 import { useForm } from 'react-hook-form'
 
 const Register = () => {

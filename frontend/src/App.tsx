@@ -1,13 +1,13 @@
-import { RouterProvider } from 'react-router-dom'
-import { router } from './router'
 import { useEffect } from 'react'
-import { isValidToken } from './utils/jwtToken'
-import { keyStorage } from './const/keyStorage'
 import { useDispatch } from 'react-redux'
+import { RouterProvider } from 'react-router-dom'
+import { keyStorage } from './const/keyStorage'
 import { setIsAuthenticate } from './redux/reducers/user.reducer'
+import { router } from './router'
+import { isValidToken } from './utils/jwtToken'
 
 const App = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<any>()
   useEffect(() => {
     const accessToken = localStorage.getItem(keyStorage.accessToken)
     if (!accessToken) {

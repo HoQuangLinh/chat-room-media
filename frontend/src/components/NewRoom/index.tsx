@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { IFormCreateRoom } from '../../interfaces/room/Room'
+import { IFormCreateRoom } from '../../interfaces/form/room/Room'
 import Input from '../Input'
 
 const NewRoom = () => {

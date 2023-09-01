@@ -1,4 +1,4 @@
-import { IUserStore } from '@/interfaces/stores/IUserStore'
+import { IUserStore } from '@/interfaces/stores/UserStore'
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState: IUserStore = {

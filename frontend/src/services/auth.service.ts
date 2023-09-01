@@ -1,7 +1,7 @@
 import { authEndpoint } from '@/const/apiEndpoint'
-import { IFormLogin, IFormRegister } from '@/interfaces/auth/Auth'
+import { IFormLogin, IFormRegister } from '@/interfaces/form/auth/Auth'
 import { IApiResponse } from '@/interfaces/api/Http'
-import http from './httpService'
+import http from './http.service'
 
 class AuthService {
   async login(user: IFormLogin): Promise<string> {

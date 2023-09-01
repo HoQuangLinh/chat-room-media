@@ -1,4 +1,4 @@
-import { IMenuItem } from '@/interfaces/ListMenu'
+import { IMenuItem } from '@/interfaces/components/ListMenu'
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 interface IMenuItemProps {

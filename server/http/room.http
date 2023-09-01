@@ -5,7 +5,7 @@ Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGVmMWQxMjg5M
 Content-Type:  application/json
 
 {
-     "name": "Test room1",
+     "name": "Test room4",
   "visibility": "public"
 }
 

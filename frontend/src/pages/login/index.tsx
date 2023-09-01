@@ -1,6 +1,6 @@
 import Input from '@/components/Input'
-import { IFormLogin } from '@/interfaces/auth/Auth'
-import { authService } from '@/services/authService'
+import { IFormLogin } from '@/interfaces/form/auth/Auth'
+import { authService } from '@/services/auth.service'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 import { keyStorage } from '../../const/keyStorage'

@@ -9,6 +9,7 @@ import Register from '../pages/register'
 import Rooms from '../pages/rooms'
 import AuthenticatorRoute from './AuthenticatorRoute'
 import PrivateRoute from './PrivateRoute'
+import Room from '../pages/room'
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
       {
         path: path.rooms,
         element: <Rooms />
+      },
+      {
+        path: path.room,
+        element: <Room />
       },
       {
         path: path.files,
