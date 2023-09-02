@@ -9,6 +9,7 @@ export type TModalProps = {
 
 export type TModalHandles = {
   openModal: () => void
+  closeModal: () => void
 }
 
 const Modal = React.forwardRef<TModalHandles, TModalProps>((props, ref) => {

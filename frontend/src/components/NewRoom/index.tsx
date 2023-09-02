@@ -1,17 +1,54 @@
-import { useRef, useState } from 'react'
+import { IUserResponse } from '@/interfaces/api/User'
+import { IFormCreateRoom } from '@/interfaces/form/room/Room'
+import { useRootSelector } from '@/redux/reducers'
+import { createRoom } from '@/redux/reducers/room.reducer'
+import { roomService } from '@/services/room.service'
+import userService from '@/services/user.service'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { IFormCreateRoom } from '../../interfaces/form/room/Room'
+import { useDispatch } from 'react-redux'
 import Input from '../Input'
+import { getValue } from '@testing-library/user-event/dist/utils'
 
-const NewRoom = () => {
+interface INewRoomProps {
+  onCloseModal: () => void
+}
+const NewRoom = (props: INewRoomProps) => {
+  const { onCloseModal } = props
   const {
     handleSubmit,
     control,
+    setError,
+    setValue,
+    getValues,
     formState: { errors }
-  } = useForm<IFormCreateRoom>()
+  } = useForm<IFormCreateRoom>({
+    defaultValues: {
+      members: [],
+      visibility: 'public'
+    }
+  })
+  const [users, setUsers] = useState<IUserResponse[]>([])
+  const userSelector = useRootSelector((item) => item.user)
+  const dispatch = useDispatch()
 
-  const onSubmit = handleSubmit(async (data) => {})
+  const onSubmit = handleSubmit((data) => {
+    const formCreateRoom = data
+    if (userSelector?.userId) {
+      formCreateRoom.members = [userSelector.userId, ...formCreateRoom.members]
+    }
+
+    roomService.createRoom(formCreateRoom).then((data) => {
+      dispatch(createRoom(data))
+      onCloseModal && onCloseModal()
+    })
+  })
   const [activeTab, setActiveTab] = useState(0)
+  useEffect(() => {
+    userService.getAllUser().then((data) => {
+      setUsers(data)
+    })
+  }, [])
 
   return (
     <form onSubmit={onSubmit} className='flex h-full w-full flex-col'>
@@ -27,6 +64,9 @@ const NewRoom = () => {
               name='name'
               control={control}
               placeholder='Room name'
+              rules={{
+                required: 'Room name is required'
+              }}
               error={errors?.name?.message}
             />
             <Input
@@ -43,7 +83,14 @@ const NewRoom = () => {
           </div>
           <input
             onClick={() => {
-              setActiveTab(1)
+              if (!getValues('name')) {
+                setError('name', {
+                  message: 'Room name is required',
+                  type: 'required'
+                })
+              } else {
+                setActiveTab(1)
+              }
             }}
             type='button'
             value='Next'
@@ -59,20 +106,17 @@ const NewRoom = () => {
               type='multiselect'
               name='members'
               control={control}
-              options={[
-                { label: 'Category 1', value: 'category1' },
-                { label: 'Category 2', value: 'category2' },
-                { label: 'Category 3', value: 'category3' },
-                { label: 'Category 4', value: 'category4' },
-                { label: 'Category 5', value: 'category5' },
-                { label: 'Category 6', value: 'category6' },
-                { label: 'Category 5', value: 'category5' },
-                { label: 'Category 6', value: 'category6' },
-                { label: 'Category 5', value: 'category5' },
-                { label: 'Category 6', value: 'category6' },
-                { label: 'Category 5', value: 'category5' },
-                { label: 'Category 6', value: 'category6' }
-              ]}
+              onSelect={(options) => {
+                const selectedValues =
+                  options && options.map((item) => item.value)
+                setValue('members', selectedValues)
+              }}
+              options={users.map((item) => {
+                return {
+                  label: item.username,
+                  value: item._id
+                }
+              })}
             />
           </div>
           <input

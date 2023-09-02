@@ -18,7 +18,11 @@ const Manager = () => {
         </button>
       </div>
       <Modal ref={modalRef} className='h-[500px] w-[500px]'>
-        <NewRoom />
+        <NewRoom
+          onCloseModal={() => {
+            modalRef.current?.closeModal()
+          }}
+        />
       </Modal>
       <div>
         <div className='text-md mt-4 mb-2 flex justify-between font-bold uppercase'>

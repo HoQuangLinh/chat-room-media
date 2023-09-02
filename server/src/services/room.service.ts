@@ -5,7 +5,7 @@ import RoomModel from '../entities/Room'
 export default class RoomService {
   async createRoom(
     roomRequestDto: ICreateRoomRequestDTO
-  ): Promise<boolean> {
+  ): Promise<any> {
     const { name, creator, visibility, members } = roomRequestDto
     if (!name || !creator) {
       throw new Error('name and creator is required')
@@ -17,12 +17,14 @@ export default class RoomService {
       members: members
     })
     await newRoom.save()
-    return true
+    return newRoom.populate('members', '-password')
   }
   async getMyOwnerRooms(creator: string) {
     const myOwnerRoom = await RoomModel.find({
       creator: creator
-    }).populate('members', '-password')
+    })
+      .populate('members', '-password')
+      .sort('-createdAt')
     return myOwnerRoom
   }
   async getMyRooms(me: string) {
@@ -33,7 +35,9 @@ export default class RoomService {
         },
         { members: { $in: [me] } }
       ]
-    }).populate('members', '-password')
+    })
+      .populate('members', '-password')
+      .sort('-createdAt')
     return myOwnerRoom
   }
 }

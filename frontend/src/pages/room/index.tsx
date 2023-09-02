@@ -1,14 +1,13 @@
-import { FormEvent, FormEventHandler, useEffect, useRef, useState } from 'react'
+import { FormEventHandler, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 import MessageItem from '@/components/MessageItem'
 import { IMessageResponse } from '@/interfaces/api/Message'
 import { useRootSelector } from '@/redux/reducers'
 import { messageService } from '@/services/message.service'
-import './index.css'
-import React from 'react'
 import { RiSendPlane2Fill } from 'react-icons/ri'
+import './index.css'
 
 const Room = () => {
   const rootSelector = useRootSelector((state) => state)
@@ -23,79 +22,7 @@ const Room = () => {
 
   const refDisplay = useRef<any>()
 
-  const [messages, setMessages] = useState<IMessageResponse[]>([
-    {
-      _id: 'ss',
-      sender: {
-        userId: 'slslslsls',
-        username: 'linh'
-      },
-      text: 'Test chat tin '
-    },
-    {
-      _id: 'ss',
-      sender: {
-        userId: 'slslslsls',
-        username: 'linh'
-      },
-      room: {
-        name: 'Linh',
-        visibility: 'private',
-        _id: 'sksksks'
-      },
-      text: 'Test chat tin '
-    },
-    {
-      _id: 'ss',
-      sender: {
-        userId: 'slslslsls',
-        username: 'linh'
-      },
-
-      text: 'Test chat tin '
-    },
-    {
-      _id: 'ss',
-      sender: {
-        userId: 'slslslsls',
-        username: 'linh'
-      },
-      room: {
-        name: 'Linh',
-        visibility: 'private',
-        _id: 'sksksks'
-      },
-      text: 'Test chat tin '
-    },
-    {
-      _id: 'ss',
-      sender: {
-        userId: 'slslslsls',
-        username: 'linh'
-      },
-      room: {
-        name: 'Linh',
-        visibility: 'private',
-        _id: 'sksksks'
-      },
-      text: 'Test chat tin '
-    },
-    {
-      _id: 'asss',
-      sender: {
-        userId: '64ef1d12892c292dce9458f2',
-        username: 'linh'
-      },
-      room: {
-        name: 'Linh',
-        visibility: 'private',
-        _id: 'sksksks'
-      },
-      text: 'Test chat tin '
-    }
-  ])
-
-  const navigate = useNavigate()
+  const [messages, setMessages] = useState<IMessageResponse[]>([])
 
   useEffect(() => {
     if (!roomId) {

@@ -13,8 +13,8 @@ const roomSlice = createSlice({
     createRoom: (state, action) => {
       return {
         ...state,
-        myRooms: [...state.myRooms, action.payload],
-        myOwnerRooms: [...state.myRooms, action.payload]
+        myRooms: [action.payload, ...state.myRooms],
+        myOwnerRooms: [action.payload, ...state.myOwnerRooms]
       }
     },
     setMyRooms: (state, action) => {

@@ -3,6 +3,11 @@ export const authEndpoint = {
   login: 'api/auth/login',
   register: 'api/auth/register'
 }
+
+export const userEndpoint = {
+  getAllUsers: 'api/user/getAllUsers'
+}
+
 export const roomEndpoint = {
   createRoom: 'api/room/createRoom',
   getMyOwnerRooms: 'api/room/getMyOwnerRooms',

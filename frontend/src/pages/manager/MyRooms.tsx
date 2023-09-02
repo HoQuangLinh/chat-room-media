@@ -16,7 +16,7 @@ const MyRooms = () => {
   return (
     <>
       {roomSelector &&
-        roomSelector?.myRooms.map((item, index) => {
+        roomSelector?.myOwnerRooms.map((item, index) => {
           return (
             <div className='mt-2 flex flex-col rounded-md bg-[#1a1918] p-2'>
               <div className=' flex items-center'>

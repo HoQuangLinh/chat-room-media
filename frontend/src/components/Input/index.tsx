@@ -16,6 +16,7 @@ interface IOption {
 interface InputProps<T extends FieldValues> {
   name: Path<T>
   control: Control<T>
+
   type?: 'text' | 'password' | 'radio' | 'textarea' | 'multiselect'
   label?: string
   placeholder?: string
@@ -26,6 +27,7 @@ interface InputProps<T extends FieldValues> {
     'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
   >
   onChange?: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>
+  onSelect?: (selectedOptions: IOption[]) => void
 }
 type TInputElement = {
   onChange: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>
@@ -41,7 +43,8 @@ const Input = <T extends FieldValues>(props: InputProps<T>) => {
     error,
     options,
     rules,
-    onChange
+    onChange,
+    onSelect
   } = props
 
   const renderInputElement = (inputProps: TInputElement) => {
@@ -89,9 +92,8 @@ const Input = <T extends FieldValues>(props: InputProps<T>) => {
             showCheckbox={true}
             hidePlaceholder={true}
             closeOnSelect={false}
-            onSelect={onChange}
-            onRemove={onChange}
-            selectedValues={inputProps.value}
+            onSelect={onSelect}
+            onRemove={onSelect}
             avoidHighlightFirstOption={true}
             closeIcon='cancel'
           />
