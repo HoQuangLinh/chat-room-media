@@ -22,7 +22,7 @@ export default class RoomService {
   async getMyOwnerRooms(creator: string) {
     const myOwnerRoom = await RoomModel.find({
       creator: creator
-    })
+    }).populate('members', '-password')
     return myOwnerRoom
   }
   async getMyRooms(me: string) {
@@ -33,7 +33,7 @@ export default class RoomService {
         },
         { members: { $in: [me] } }
       ]
-    })
+    }).populate('members', '-password')
     return myOwnerRoom
   }
 }
