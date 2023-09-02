@@ -1,6 +1,6 @@
 import { messageEndpoint } from '@/const/apiEndpoint'
 import { IApiResponse } from '@/interfaces/api/Http'
-import { IMessagePayload, IMessageResponse } from '@/interfaces/api/Message'
+import { IMessageRequest, IMessageResponse } from '@/interfaces/api/Message'
 import http from './http.service'
 
 class MessageService {
@@ -11,9 +11,9 @@ class MessageService {
     )
     return res.data.data
   }
-  async sendMessage(payload: IMessagePayload) {
-    const res = await http.post<IApiResponse<boolean>>(
-      messageEndpoint.getMessageByRoomId,
+  async sendMessage(payload: IMessageRequest) {
+    const res = await http.post<IApiResponse<IMessageResponse>>(
+      messageEndpoint.sendMessageToRoom,
       payload
     )
     return res.data.data

@@ -9,7 +9,7 @@ const messageController =
 
 const messageRouter = express.Router()
 
-messageRouter.get(
+messageRouter.post(
   '/sendMessageToRoom',
   auth,
   catchAsync(
@@ -17,7 +17,7 @@ messageRouter.get(
   )
 )
 
-messageRouter.get(
+messageRouter.post(
   '/getMessageByRoomId',
   auth,
   catchAsync(

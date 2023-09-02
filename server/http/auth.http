@@ -4,7 +4,7 @@ POST  http://localhost:5000/api/auth/login
 Content-Type:  application/json
 
 {
-    "username":"linh",
+    "username":"test1",
     "password":"111111"
 }
 
@@ -14,7 +14,7 @@ POST  http://localhost:5000/api/auth/register
 Content-Type:  application/json
 
 {
-    "username":"linh11",
+    "username":"test6",
     "password":"111111",
     "confirmPassword":"111111"
 }

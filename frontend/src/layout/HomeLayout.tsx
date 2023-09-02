@@ -15,7 +15,7 @@ const HomeLayout = () => {
         <div>
           <Sidebar />
         </div>
-        <div className='ml-64 w-full '>
+        <div className='ml-64 w-full bg-[#313338] p-6 '>
           <Outlet />
         </div>
       </div>

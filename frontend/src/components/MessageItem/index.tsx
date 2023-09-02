@@ -16,17 +16,14 @@ const MessageItem = (props: IMessageItemProps) => {
 
   return (
     <>
-      <div className=''>
+      <div className=''></div>
+
+      <div className='you_content flex items-end'>
         <Avatar name={sender.username} />
-        <p className='ml-1'>{sender.username}</p>
-      </div>
-
-      <div className='you_content'>
-        {sender.userId === me.userId && (
-          <i className='fas fa-trash text-danger' />
-        )}
-
-        <div>{text && <div className='chat_text'>{text}</div>}</div>
+        <div className=''>
+          <p className='ml-4 text-[#fff]'>{sender.username}</p>
+          {text && <div className='chat_text ml-2'>{text}</div>}
+        </div>
       </div>
 
       <div className='chat_time'>{new Date().toLocaleString()}</div>

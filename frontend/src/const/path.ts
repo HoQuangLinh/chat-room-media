@@ -3,6 +3,6 @@ export const path = {
   register: '/register',
   home: '/',
   rooms: '/rooms',
-  room: '/room/:id',
+  room: '/room/:roomId',
   files: '/my-files'
 }

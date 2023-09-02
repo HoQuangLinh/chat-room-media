@@ -7,9 +7,7 @@ import MessageModel from '../entities/Message'
 
 @injectable()
 export class MessageService {
-  async sendMessageToRoom(
-    message: IPayloadMessageDTO
-  ): Promise<boolean> {
+  async sendMessageToRoom(message: IPayloadMessageDTO): Promise<any> {
     const { medias, roomId, sender, text } = message
     if (!sender) {
       throw new Error('sender is required')
@@ -19,12 +17,12 @@ export class MessageService {
     }
     const newMessage = new MessageModel({
       medias: medias,
-      roomId: roomId,
+      room: roomId,
       sender: sender,
       text: text
     })
     await newMessage.save()
-    return true
+    return newMessage.populate('sender', '-password')
   }
   async getMessageByRoomId(payload: IGetMessageByRoomIdRequest) {
     const { roomId } = payload
@@ -33,7 +31,7 @@ export class MessageService {
     }
     const messages = await MessageModel.find({
       room: roomId
-    })
+    }).populate('sender', '-password')
     return messages
   }
 }

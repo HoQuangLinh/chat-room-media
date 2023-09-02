@@ -11,11 +11,6 @@ export const initializeListMenu: IMenuItem[] = [
   },
 
   {
-    icon: AiOutlineFile,
-    title: 'My Files',
-    path: path.files
-  },
-  {
     icon: BiGroup,
     title: 'Rooms',
     children: []

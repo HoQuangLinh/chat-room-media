@@ -19,7 +19,7 @@ const NewRoom = () => {
         New room
       </div>
       {activeTab === 0 && (
-        <div>
+        <div className='flex h-full w-full flex-col'>
           <div className='flex-1 overflow-auto'>
             <Input
               label='Room name'
@@ -53,7 +53,7 @@ const NewRoom = () => {
       )}
       {activeTab === 1 && (
         <div className='flex h-full w-full flex-col'>
-          <div className='flex-1 overflow-auto'>
+          <div className='flex-1'>
             <Input
               label='List users in zoom bee'
               type='multiselect'
@@ -64,6 +64,12 @@ const NewRoom = () => {
                 { label: 'Category 2', value: 'category2' },
                 { label: 'Category 3', value: 'category3' },
                 { label: 'Category 4', value: 'category4' },
+                { label: 'Category 5', value: 'category5' },
+                { label: 'Category 6', value: 'category6' },
+                { label: 'Category 5', value: 'category5' },
+                { label: 'Category 6', value: 'category6' },
+                { label: 'Category 5', value: 'category5' },
+                { label: 'Category 6', value: 'category6' },
                 { label: 'Category 5', value: 'category5' },
                 { label: 'Category 6', value: 'category6' }
               ]}

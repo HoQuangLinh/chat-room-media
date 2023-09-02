@@ -12,135 +12,24 @@
   align-items: center;
   margin: 0 8px;
 }
-.message_header input {
-  flex: 1 1;
-  border: none;
-  outline: none;
-  color: #222;
-  background: #ffffffcc;
-  border-radius: 999px;
-  padding: 4px 10px;
-}
-.message_chat_list {
-  width: 100%;
-  height: calc(100% - 60px);
-  overflow-y: auto;
-}
-.message_chat_list .message_user {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.6rem;
-  color: #555;
-  background-color: transparent;
-  cursor: pointer;
-}
-.message_chat_list .message_user.active {
-  background: #ffffff1a;
-}
-
-.message_chat_list .message_user a {
-  color: #555;
-}
-.message_chat_list .message_user a:hover {
-  text-decoration: none;
-}
-
-.message_chat_list .message_user .fa-circle {
-  font-size: 8px;
-  color: #aaa;
-}
-.message_chat_list .message_user .fa-circle.active {
-  color: forestgreen;
-}
 
 /* -------- Chat Input----- */
 .chat_input {
-  display: flex;
-  gap: 4px;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 10px;
+  margin: 0 28px;
 }
 .chat_input input {
   width: 100%;
   border: none;
   outline: none;
   color: #222;
-  background: #ffffffcc;
-  border-radius: 999px;
-  padding: 4px 10px;
-}
-.chat_input button {
-  border: none;
-  outline: none;
-  background: transparent;
-  color: #dabeff;
-  cursor: pointer;
-  padding: 0.2rem;
+
+  border-radius: 10px;
+  padding: 10px 10px;
 }
 
-.chat_input .nav-link {
-  padding: 0 0.2rem;
-}
-
-.chat_input .file_upload {
-  position: relative;
-  overflow: hidden;
-  padding: 0 0.2rem;
-  font-size: 1.2rem;
-}
-.chat_input .file_upload #file {
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-}
-.show_media {
-  width: 100%;
-  height: 70px;
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-  place-items: center;
-  grid-gap: 10px;
-  background: #f3f3f3;
-  border-radius: 5px;
-  padding: 0 5px;
-}
-.show_media #file_media {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  max-width: 70px;
-  max-height: 70px;
-}
-.show_media #file_media img,
-.show_media #file_media video {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: contain;
-}
-.show_media #file_media span {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 4;
-
-  border: 1px solid crimson;
-  padding: 3px 7px;
-  color: crimson;
-  border-radius: 50%;
-  font-size: 10px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-/* -------- Chat Container ----- */
 .chat_container {
   width: 100%;
-  height: calc(100vh - 50px);
+  height: calc(100vh - 100px);
   overflow-y: auto;
   padding: 0 10px;
 }

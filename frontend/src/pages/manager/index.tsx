@@ -1,28 +1,30 @@
-import { useRef } from 'react'
 import Modal, { TModalHandles } from '@/components/Modal'
+import { useRef } from 'react'
+import { IoIosAdd } from 'react-icons/io'
 import NewRoom from '../../components/NewRoom'
-import { useRootSelector } from '../../redux/reducers'
+import MyRooms from './MyRooms'
 
 const Manager = () => {
   const modalRef = useRef<TModalHandles>(null)
-  const roomSelector = useRootSelector((item) => item.room)
   return (
     <div className='w-full'>
-      <div className='flex w-full items-center justify-between px-12 pt-4'>
-        <button onClick={() => modalRef.current?.openModal()}>New room</button>
+      <div className='flex w-full items-center justify-between pb-3'>
+        <button
+          onClick={() => modalRef.current?.openModal()}
+          className='flex cursor-pointer items-center rounded-[3px] bg-primary py-2 px-3 font-medium text-whiteCt transition-all hover:opacity-95'
+        >
+          <IoIosAdd className='mr-1 text-whiteCt' />
+          New room
+        </button>
       </div>
       <Modal ref={modalRef} className='h-[500px] w-[500px]'>
         <NewRoom />
       </Modal>
       <div>
-        <p>List My owner room</p>
-        {roomSelector && roomSelector.myRooms && (
-          <div>
-            {roomSelector.myRooms.map((item) => {
-              return <div>{item.name}</div>
-            })}
-          </div>
-        )}
+        <div className='text-md mt-4 mb-2 flex justify-between font-bold uppercase'>
+          <label className='text-greyLabelCt'>List My owner room</label>
+        </div>
+        <MyRooms />
       </div>
     </div>
   )

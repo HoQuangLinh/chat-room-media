@@ -10,6 +10,6 @@ export const roomEndpoint = {
 }
 
 export const messageEndpoint = {
-  sendMessage: 'api/message/sendMessageToRoom',
+  sendMessageToRoom: 'api/message/sendMessageToRoom',
   getMessageByRoomId: 'api/message/getMessageByRoomId'
 }

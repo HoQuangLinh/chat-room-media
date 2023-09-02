@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { FormEvent, FormEventHandler, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 
@@ -7,6 +7,8 @@ import { IMessageResponse } from '@/interfaces/api/Message'
 import { useRootSelector } from '@/redux/reducers'
 import { messageService } from '@/services/message.service'
 import './index.css'
+import React from 'react'
+import { RiSendPlane2Fill } from 'react-icons/ri'
 
 const Room = () => {
   const rootSelector = useRootSelector((state) => state)
@@ -15,11 +17,12 @@ const Room = () => {
   const dispatch = useDispatch()
 
   const { roomId } = useParams()
+  console.log(roomId)
   const [text, setText] = useState('')
   const [media, setMedia] = useState([])
 
   const refDisplay = useRef<any>()
-  console.log(user)
+
   const [messages, setMessages] = useState<IMessageResponse[]>([
     {
       _id: 'ss',
@@ -27,11 +30,6 @@ const Room = () => {
         userId: 'slslslsls',
         username: 'linh'
       },
-      room: {
-        name: 'Linh',
-        visibility: 'private',
-        _id: 'sksksks'
-      },
       text: 'Test chat tin '
     },
     {
@@ -53,11 +51,7 @@ const Room = () => {
         userId: 'slslslsls',
         username: 'linh'
       },
-      room: {
-        name: 'Linh',
-        visibility: 'private',
-        _id: 'sksksks'
-      },
+
       text: 'Test chat tin '
     },
     {
@@ -111,7 +105,22 @@ const Room = () => {
       setMessages(messages)
     })
   }, [roomId])
-  const handleSubmit = () => {}
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
+    // Your form handling logic here
+    event.preventDefault()
+    if (!text) {
+      return
+    }
+    if (roomId && text) {
+      messageService
+        .sendMessage({ text: text, roomId: roomId })
+        .then((data) => {
+          console.log(data)
+          const newMessage = [...messages, data]
+          setMessages(newMessage)
+        })
+    }
+  }
 
   return (
     <div className='m-2'>
@@ -146,12 +155,21 @@ const Room = () => {
         </div>
       </div>
 
-      <form className='chat_input' onSubmit={handleSubmit}>
+      <form
+        className='chat_input relative flex items-center justify-between bg-greyCt'
+        onSubmit={handleSubmit}
+      >
         <input
           type='text'
-          placeholder='Nhập tin nhắn...'
+          placeholder='Send message...'
           value={text}
           onChange={(e) => setText(e.target.value)}
+        />
+        <RiSendPlane2Fill
+          className='absolute right-4'
+          cursor={'pointer'}
+          color={text ? '#499BA2' : '#fff'}
+          fontSize={20}
         />
 
         {/* <div className='file_upload'>
