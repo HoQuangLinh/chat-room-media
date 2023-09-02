@@ -28,7 +28,7 @@ export default class AuthService {
       throw new Error('username or password not correct')
     }
 
-    const payload = { userId: user._id }
+    const payload = { userId: user._id, username: username }
     const token = this.jwtService.generateAccessToken(payload)
     return token
   }
@@ -50,7 +50,7 @@ export default class AuthService {
       password: passwordHash
     })
     await user.save()
-    const payload = { userId: user._id }
+    const payload = { userId: user._id, username: username }
     const token = this.jwtService.generateAccessToken(payload)
     return token
   }

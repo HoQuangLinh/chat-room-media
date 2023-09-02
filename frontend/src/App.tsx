@@ -2,9 +2,10 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { RouterProvider } from 'react-router-dom'
 import { keyStorage } from './const/keyStorage'
-import { setIsAuthenticate } from './redux/reducers/user.reducer'
+import { setIsAuthenticate, setUser } from './redux/reducers/user.reducer'
 import { router } from './router'
-import { isValidToken } from './utils/jwtToken'
+import { decodeTokenFromLocalStorage, isValidToken } from './utils/jwtToken'
+import { initialSocketAction } from './redux/actions/initialSocket'
 
 const App = () => {
   const dispatch = useDispatch<any>()
@@ -16,6 +17,12 @@ const App = () => {
     }
     const isValidUser = isValidToken(accessToken)
     if (isValidUser) {
+      const userPayload = decodeTokenFromLocalStorage()
+      if (!userPayload) {
+        return
+      }
+      dispatch(setUser(userPayload))
+      dispatch(initialSocketAction(userPayload))
       dispatch(setIsAuthenticate(true))
     }
   }, [])

@@ -8,3 +8,8 @@ export const roomEndpoint = {
   getMyOwnerRooms: 'api/room/getMyOwnerRooms',
   getMyRooms: 'api/room/getMyRooms'
 }
+
+export const messageEndpoint = {
+  sendMessage: 'api/message/sendMessageToRoom',
+  getMessageByRoomId: 'api/message/getMessageByRoomId'
+}

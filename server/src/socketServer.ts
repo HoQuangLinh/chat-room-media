@@ -10,6 +10,7 @@ let users: IUserSocket[] = []
 const SocketServer = (socket: Socket) => {
   // Connect
   socket.on(SOCKET_KEYS.joinUser, (user) => {
+    console.log('join socket')
     users.push({
       id: user._id,
       socketId: socket.id

@@ -1,5 +1,4 @@
 import { Request, Response } from 'express'
-import { IUserRegisterRequestDTO } from '../dto/UserDTO'
 export interface IRequest extends Request {
   user: any
 }
@@ -10,4 +9,9 @@ export interface IResponse extends Response {
     messageDetail?: string,
     statusCode?: number
   ): IResponse
+}
+
+export interface IMedia {
+  type: string
+  url: string
 }

@@ -3,7 +3,7 @@ import { path } from '../../const/path'
 import { initializeListMenu } from './initializeListMenu'
 import { useEffect, useState } from 'react'
 import MenuItem from './MenuItem'
-import { useRootSelector } from '../../redux/reducers'
+import { useRootSelector } from '@/redux/reducers'
 
 const Sidebar = () => {
   const [listMenu, setListMenu] = useState(initializeListMenu)
@@ -13,13 +13,11 @@ const Sidebar = () => {
       return
     }
     const { myRooms } = roomSelector
-    console.log({ myRooms })
     const newListMenu = [...listMenu]
     const indexMenu = listMenu.findIndex((item) => item.title === 'Rooms')
     newListMenu[indexMenu] = {
       ...newListMenu[indexMenu],
       children: myRooms.map((item) => {
-        console.log(item)
         return {
           title: item.name,
           path: `room/${item._id}`
