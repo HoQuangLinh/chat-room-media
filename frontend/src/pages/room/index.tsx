@@ -1,16 +1,15 @@
-import { FormEventHandler, useEffect, useRef, useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useParams } from 'react-router-dom'
-
 import MessageItem from '@/components/MessageItem'
+import { keySocket } from '@/const/keySocket'
 import { IMessageResponse } from '@/interfaces/api/Message'
 import { useRootSelector } from '@/redux/reducers'
 import { messageService } from '@/services/message.service'
+import socketService from '@/services/socket.service'
+import { FormEventHandler, useEffect, useRef, useState } from 'react'
 import { RiSendPlane2Fill } from 'react-icons/ri'
-import { keySocket } from '../../const/keySocket'
-import socketService from '../../services/socket.service'
+import { useParams } from 'react-router-dom'
 import './index.css'
-
+import { FcVideoCall } from 'react-icons/fc'
+import { AiFillPicture } from 'react-icons/ai'
 const Room = () => {
   const rootSelector = useRootSelector((state) => state)
   const socket = socketService.getSocketInstance()
@@ -86,28 +85,38 @@ const Room = () => {
         </div>
       </div>
 
-      <form
-        className='chat_input relative flex items-center justify-between bg-greyCt'
-        onSubmit={handleSubmit}
-      >
-        <input
-          type='text'
-          placeholder='Send message...'
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        />
-        <RiSendPlane2Fill
-          className='absolute right-4'
-          cursor={'pointer'}
-          color={text ? '#499BA2' : '#fff'}
-          fontSize={20}
-        />
+      <div className='flex w-full gap-4 px-12'>
+        <form
+          className='chat_input relative flex flex-1 items-center justify-between bg-greyCt'
+          onSubmit={handleSubmit}
+        >
+          <input
+            type='text'
+            placeholder='Send message...'
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          />
+          <button type='submit' className='absolute right-4'>
+            <RiSendPlane2Fill
+              className=''
+              cursor={'pointer'}
+              color={text ? '#499BA2' : '#fff'}
+              fontSize={20}
+            />
+          </button>
 
-        {/* <div className='file_upload'>
+          {/* <div className='file_upload'>
           <i className='fas fa-image text-red-500' />
           <input type='file' name='file' id='file' multiple accept='image/*' />
         </div> */}
-      </form>
+        </form>
+        <button type='button'>
+          <FcVideoCall fontSize={40} />
+        </button>
+        <button>
+          <AiFillPicture fontSize={30} color='#499be8' />
+        </button>
+      </div>
     </div>
   )
 }
