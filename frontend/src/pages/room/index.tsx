@@ -33,7 +33,6 @@ const Room = () => {
     })
   }, [roomId])
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
-    // Your form handling logic here
     event.preventDefault()
     if (!text) {
       return

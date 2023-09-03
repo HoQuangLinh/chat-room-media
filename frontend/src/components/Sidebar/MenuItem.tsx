@@ -30,7 +30,7 @@ const MenuItem: FC<IMenuItemProps> = (props) => {
       </div>
 
       {item.children && (
-        <div className='ml-4 mb-2 '>
+        <div className='scroll-ruler ml-4 mb-2 h-96 overflow-auto'>
           {item.children.map((childItem) => {
             return <MenuItem isChildren item={childItem} />
           })}

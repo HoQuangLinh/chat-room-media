@@ -1,6 +1,8 @@
 import Input from '@/components/Input'
+import { path } from '@/const/path'
 import { IFormRegister } from '@/interfaces/form/auth/Auth'
 import { useForm } from 'react-hook-form'
+import { Link } from 'react-router-dom'
 
 const Register = () => {
   const {
@@ -61,6 +63,15 @@ const Register = () => {
       >
         Register
       </button>
+      <div className='mt-3 block text-center text-sm font-medium text-greyTextCt'>
+        Already a member?
+        <Link
+          to={path.login}
+          className='ml-1 cursor-pointer text-[#00a8fc] hover:text-[#2eb9ff]'
+        >
+          Log in
+        </Link>
+      </div>
     </form>
   )
 }

@@ -83,7 +83,7 @@ const NewRoom = (props: INewRoomProps) => {
           </div>
           <input
             onClick={() => {
-              if (!getValues('name')) {
+              if (!getValues('name') || getValues('name').trim().length === 0) {
                 setError('name', {
                   message: 'Room name is required',
                   type: 'required'

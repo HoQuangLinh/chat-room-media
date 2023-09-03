@@ -1,8 +1,8 @@
 import Sidebar from '@/components/Sidebar'
+import { initialData } from '@/redux/actions/initialData'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Outlet } from 'react-router-dom'
-import { initialData } from '../redux/actions/initialData'
 
 const HomeLayout = () => {
   const dispatch = useDispatch<any>()
@@ -11,11 +11,9 @@ const HomeLayout = () => {
   }, [])
   return (
     <div>
-      <div className='flex h-screen'>
-        <div>
-          <Sidebar />
-        </div>
-        <div className='ml-64 w-full bg-[#313338] p-6 '>
+      <div className='flex'>
+        <Sidebar />
+        <div className='ml-64 w-full bg-[#313338] p-6'>
           <Outlet />
         </div>
       </div>
