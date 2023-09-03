@@ -11,14 +11,19 @@ const SocketServer = (socket: Socket) => {
   // Connect
   socket.on(SOCKET_KEYS.joinUser, (user) => {
     console.log('join socket')
-    ;[1, 2].forEach((element) => {})
     users.push({
       id: user._id,
       socketId: socket.id
     })
   })
   socket.on(SOCKET_KEYS.sendMessageToRoom, (data) => {
-    console.log(data)
+    users
+      .filter((user) => user.id !== data.sender)
+      .forEach((client) => {
+        socket
+          .to(`${client.socketId}`)
+          .emit(SOCKET_KEYS.messageFromRoom, data)
+      })
   })
 
   socket.on(SOCKET_KEYS.disconnect, () => {

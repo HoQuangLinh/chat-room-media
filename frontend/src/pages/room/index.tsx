@@ -14,12 +14,9 @@ import './index.css'
 const Room = () => {
   const rootSelector = useRootSelector((state) => state)
   const socket = socketService.getSocketInstance()
-  const { user } = rootSelector!
-
-  const dispatch = useDispatch()
+  const { user, room } = rootSelector!
 
   const { roomId } = useParams()
-  console.log(roomId)
   const [text, setText] = useState('')
   const [media, setMedia] = useState([])
 
@@ -34,7 +31,7 @@ const Room = () => {
     messageService.getMessageByRoomId(roomId).then((messages) => {
       setMessages(messages)
     })
-  }, [roomId])
+  }, [roomId, room.myRooms])
   const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault()
     if (!text) {

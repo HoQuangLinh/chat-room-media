@@ -1,4 +1,5 @@
 export const keySocket = {
   joinUser: 'joinUser',
-  sendMessageToRoom: 'sendMessageToRoom'
+  sendMessageToRoom: 'sendMessageToRoom',
+  messageFromRoom: 'messageFromRoom'
 }

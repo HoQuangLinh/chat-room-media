@@ -1,7 +1,8 @@
+import { keyStorage } from '@/const/keyStorage'
 import { IMenuItem } from '@/interfaces/components/ListMenu'
 import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { keyStorage } from '@/const/keyStorage'
+import { overrideTailwindClasses } from 'tailwind-override'
 interface IMenuItemProps {
   item: IMenuItem
   index?: string
@@ -10,15 +11,16 @@ interface IMenuItemProps {
   isActive?: boolean
 }
 const MenuItem: FC<IMenuItemProps> = (props) => {
-  const { item, className, isChildren, index } = props
+  const { item, className, isChildren, index, isActive } = props
 
   const navigate = useNavigate()
-  const isActiveItem = () => {
+  const isHighlightBg = () => {
     const indexSidebarActive = localStorage.getItem(
       keyStorage.indexSidebarActive
     )
     return indexSidebarActive === index
   }
+  console.log(isActive)
 
   return (
     <div
@@ -28,9 +30,12 @@ const MenuItem: FC<IMenuItemProps> = (props) => {
           navigate(item.path)
         }
       }}
-      className={`relative select-none rounded-md px-2 font-semibold ${
-        !item.children && 'cursor-pointer hover:bg-greyCt'
-      } ${isActiveItem() ? 'bg-blue  ' : 'text-greyLabelCt'} ${className} `}
+      className={overrideTailwindClasses(`relative select-none rounded-md px-2 font-semibold 
+      ${!item.children && 'cursor-pointer  hover:bg-greyCt'} ${
+        isHighlightBg() ? 'bg-blue  ' : ''
+      }
+      ${isActive ? 'font-black text-whiteCt  ' : 'text-greyLabelCt'}
+      ${className} `)}
     >
       <div className='flex w-full items-center'>
         {item.icon && <item.icon className='text-xl' />}
@@ -44,6 +49,7 @@ const MenuItem: FC<IMenuItemProps> = (props) => {
           {item.children.map((childItem, childIndex) => {
             return (
               <MenuItem
+                isActive={childItem.isActive}
                 index={`${index} ${childIndex}`}
                 isChildren
                 item={childItem}

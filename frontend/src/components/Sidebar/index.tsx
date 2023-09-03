@@ -24,7 +24,8 @@ const Sidebar = () => {
       children: myRooms.map((item) => {
         return {
           title: item.name,
-          path: `room/${item._id}`
+          path: `room/${item._id}`,
+          isActive: item.receiveMessage
         }
       })
     }

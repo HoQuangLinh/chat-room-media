@@ -31,12 +31,12 @@ const roomSlice = createSlice({
     },
     receiveMessage: (state, action) => {
       const roomId = state.myRooms.findIndex(
-        (item) => item._id === action.payload
+        (item) => item._id === action.payload.roomId
       )
-      const newRooms = { ...state.myRooms }
+      const newRooms = [...state.myRooms]
       newRooms[roomId] = {
         ...newRooms[roomId],
-        receiveMessage: false
+        receiveMessage: true
       }
       return {
         ...state,
@@ -46,5 +46,6 @@ const roomSlice = createSlice({
   }
 })
 
-export const { createRoom, setMyRooms, setMyOwnerRooms } = roomSlice.actions
+export const { createRoom, setMyRooms, setMyOwnerRooms, receiveMessage } =
+  roomSlice.actions
 export default roomSlice.reducer
