@@ -7,10 +7,13 @@ import { IMessageResponse } from '@/interfaces/api/Message'
 import { useRootSelector } from '@/redux/reducers'
 import { messageService } from '@/services/message.service'
 import { RiSendPlane2Fill } from 'react-icons/ri'
+import { keySocket } from '../../const/keySocket'
+import socketService from '../../services/socket.service'
 import './index.css'
 
 const Room = () => {
   const rootSelector = useRootSelector((state) => state)
+  const socket = socketService.getSocketInstance()
   const { user } = rootSelector!
 
   const dispatch = useDispatch()
@@ -41,9 +44,14 @@ const Room = () => {
       messageService
         .sendMessage({ text: text, roomId: roomId })
         .then((data) => {
+          socket.emit(keySocket.sendMessageToRoom, {
+            sender: user.userId,
+            roomId: roomId
+          })
           console.log(data)
           const newMessage = [...messages, data]
           setMessages(newMessage)
+          setText('')
         })
     }
   }
@@ -65,13 +73,13 @@ const Room = () => {
         <div className='chat_display' ref={refDisplay}>
           {messages.map((message, index) => (
             <div key={index}>
-              {message.sender.userId !== user.userId && (
+              {message.sender._id !== user.userId && (
                 <div className='chat_row other_message'>
                   <MessageItem item={message} />
                 </div>
               )}
 
-              {message.sender.userId === user.userId && (
+              {message.sender._id === user.userId && (
                 <div className='chat_row you_message'>
                   <MessageItem item={message} />
                 </div>

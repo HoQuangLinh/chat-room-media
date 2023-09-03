@@ -76,6 +76,9 @@ body {
 #multiselectContainerReact .option {
   color: #f2f3f5;
 }
+#multiselectContainerReact .option input {
+  margin-right: 6px;
+}
 #multiselectContainerReact .option input:checked {
   background-color: var(--primary);
 }

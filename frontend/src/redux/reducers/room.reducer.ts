@@ -28,6 +28,20 @@ const roomSlice = createSlice({
         ...state,
         myOwnerRooms: [...action.payload]
       }
+    },
+    receiveMessage: (state, action) => {
+      const roomId = state.myRooms.findIndex(
+        (item) => item._id === action.payload
+      )
+      const newRooms = { ...state.myRooms }
+      newRooms[roomId] = {
+        ...newRooms[roomId],
+        receiveMessage: false
+      }
+      return {
+        ...state,
+        myRooms: newRooms
+      }
     }
   }
 })

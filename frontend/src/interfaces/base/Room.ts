@@ -11,4 +11,5 @@ export interface IRoom {
   visibility: TVisibility
   createdAt?: string
   members?: TMember[]
+  receiveMessage?: boolean
 }

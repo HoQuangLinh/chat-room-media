@@ -24,8 +24,9 @@ module.exports = {
       greyHoverCt: '#ffffff1a',
       greyCt: '#313338',
       purpleCt: '#8548c2',
-      pinkCt: '#a65f8d'
-    },
+      pinkCt: '#a65f8d',
+      blue: 'rgb(17, 100, 163)'
+    }
   },
   plugins: []
 }

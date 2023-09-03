@@ -1,3 +1,4 @@
 export const keyStorage = {
-  accessToken: 'accessToken'
+  accessToken: 'accessToken',
+  indexSidebarActive: 'indexSidebarActive'
 }

@@ -1,8 +1,7 @@
-import { IUser } from '@/interfaces/base/User'
+import { IMessagePayload } from '@/interfaces/api/Message'
 import { useRootSelector } from '@/redux/reducers'
 import { useDispatch } from 'react-redux'
 import Avatar from '../Avatar'
-import { IMessagePayload } from '../../interfaces/api/Message'
 
 interface IMessageItemProps {
   item: IMessagePayload
@@ -11,7 +10,6 @@ const MessageItem = (props: IMessageItemProps) => {
   const rootSelector = useRootSelector((state) => state)
   const { item } = props
   const { text, sender } = item
-  const { user: me } = rootSelector!
   const dispatch = useDispatch()
 
   return (

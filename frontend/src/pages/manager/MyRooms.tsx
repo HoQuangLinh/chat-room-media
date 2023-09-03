@@ -1,15 +1,18 @@
 import Avatar from '@/components/Avatar'
 import { useRootSelector } from '@/redux/reducers'
 import { formatDate } from '@/utils/date'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi'
 import { HiLockClosed } from 'react-icons/hi'
 import { RiEarthFill } from 'react-icons/ri'
+import { FaUserPlus } from 'react-icons/fa'
+import Modal, { TModalHandles } from '@/components/Modal'
+import AddPeople from '@/components/AddPeople'
 
 const MyRooms = () => {
   const roomSelector = useRootSelector((item) => item.room)
   const [isCollapsed, setIsCollapsed] = useState<number>(-1)
-
+  const modalRef = useRef<TModalHandles>(null)
   const toggleCollapse = (index: number) => {
     setIsCollapsed(index)
   }
@@ -34,22 +37,31 @@ const MyRooms = () => {
                     {item.createdAt && formatDate(item.createdAt)}
                   </span>
                 </div>
-                <div
-                  onClick={() =>
-                    isCollapsed === index
-                      ? toggleCollapse(-1)
-                      : toggleCollapse(index)
-                  }
-                  className='ml-auto flex cursor-pointer items-center rounded-xl bg-[#5d5d5d6e] py-1 px-2 text-[#9eadc7] transition-all hover:bg-[#5d5d5d99]'
-                >
-                  {item.members && item.members.length}
-                  {item.members &&
-                    (item.members.length > 1 ? ' members' : ' member')}
-                  {isCollapsed === index ? (
-                    <BiChevronUp className='ml-1' />
-                  ) : (
-                    <BiChevronDown className='ml-1' />
-                  )}
+                <div className='ml-auto flex items-center'>
+                  <div
+                    className='flex cursor-pointer items-center rounded-xl bg-[#9eadc7] py-1 px-2 transition-all hover:bg-[#9eadc7e0]'
+                    onClick={() => modalRef.current?.openModal()}
+                  >
+                    <FaUserPlus className='mr-1' />
+                    Invite
+                  </div>
+                  <div
+                    onClick={() =>
+                      isCollapsed === index
+                        ? toggleCollapse(-1)
+                        : toggleCollapse(index)
+                    }
+                    className='ml-2 flex cursor-pointer items-center rounded-xl bg-[#5d5d5d6e] py-1 px-2 text-[#9eadc7] transition-all hover:bg-[#5d5d5d99]'
+                  >
+                    {item.members && item.members.length}
+                    {item.members &&
+                      (item.members.length > 1 ? ' members' : ' member')}
+                    {isCollapsed === index ? (
+                      <BiChevronUp className='ml-1' />
+                    ) : (
+                      <BiChevronDown className='ml-1' />
+                    )}
+                  </div>
                 </div>
               </div>
               {isCollapsed === index && (
@@ -67,6 +79,13 @@ const MyRooms = () => {
             </div>
           )
         })}
+      <Modal ref={modalRef} className='h-[80%] w-[500px]'>
+        <AddPeople
+          onCloseModal={() => {
+            modalRef.current?.closeModal()
+          }}
+        />
+      </Modal>
     </>
   )
 }

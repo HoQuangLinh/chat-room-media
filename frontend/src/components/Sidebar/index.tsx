@@ -4,10 +4,14 @@ import { initializeListMenu } from './initializeListMenu'
 import { useEffect, useState } from 'react'
 import MenuItem from './MenuItem'
 import { useRootSelector } from '@/redux/reducers'
+import { keyStorage } from '../../const/keyStorage'
 
 const Sidebar = () => {
   const [listMenu, setListMenu] = useState(initializeListMenu)
   const roomSelector = useRootSelector((item) => item.room)
+  useEffect(() => {
+    localStorage.setItem(keyStorage.indexSidebarActive, '0')
+  }, [])
   useEffect(() => {
     if (!roomSelector || roomSelector.myRooms.length === 0) {
       return
@@ -37,7 +41,7 @@ const Sidebar = () => {
         </Link>
         <ul>
           {listMenu.map((item, index) => {
-            return <MenuItem item={item} />
+            return <MenuItem index={index.toString()} item={item} />
           })}
         </ul>
       </div>
