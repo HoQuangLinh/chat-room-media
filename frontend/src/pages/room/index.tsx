@@ -1,34 +1,29 @@
+import Input from '@/components/Input'
 import MessageItem from '@/components/MessageItem'
+import Photo from '@/components/Photo'
 import { keySocket } from '@/const/keySocket'
 import { IMessageResponse } from '@/interfaces/api/Message'
+import { IFormMessage } from '@/interfaces/form/message/Message'
 import { useRootSelector } from '@/redux/reducers'
 import { messageService } from '@/services/message.service'
 import socketService from '@/services/socket.service'
-import { FormEventHandler, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { AiOutlineCloseCircle } from 'react-icons/ai'
+import { FcVideoCall } from 'react-icons/fc'
 import { RiSendPlane2Fill } from 'react-icons/ri'
 import { useParams } from 'react-router-dom'
 import './index.css'
-import { FcVideoCall } from 'react-icons/fc'
-import { AiFillPicture } from 'react-icons/ai'
-import Photo from '../../components/Photo'
-import { IFormMessage } from '@/interfaces/form/message/Message'
-import { useForm } from 'react-hook-form'
+import { uploadToCloudinary } from '../../utils/uploadToCloudinary'
 const Room = () => {
   const rootSelector = useRootSelector((state) => state)
   const socket = socketService.getSocketInstance()
   const { user, room } = rootSelector!
   const inputRef = useRef<HTMLInputElement>(null)
   const { roomId } = useParams()
-  const [text, setText] = useState('')
-  const [media, setMedia] = useState([])
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-    getValues
-  } = useForm<IFormMessage>()
+  const [files, setFiles] = useState<File[]>([])
 
-  const refDisplay = useRef<any>()
+  const { handleSubmit, control, setValue, watch } = useForm<IFormMessage>()
 
   const [messages, setMessages] = useState<IMessageResponse[]>([])
 
@@ -40,44 +35,60 @@ const Room = () => {
       setMessages(messages)
     })
   }, [roomId, room.myRooms])
-  const onSubmit = handleSubmit((data) => {
+
+  const scrollMessageIntoBottom = () => {
+    const element = document.getElementById('file_display')
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end'
+      })
+    }
+  }
+  useEffect(() => {
+    scrollMessageIntoBottom()
+  }, [messages, files?.length])
+
+  const onSubmit = handleSubmit(async (data) => {
     console.log(data)
-    if (!text) {
+    if (!data.text?.trim() && (!data.files || data.files.length == 0)) {
       return
     }
-    if (roomId && text) {
+    if (data.files) {
+      const medias = await uploadToCloudinary(data.files)
+      if (medias) {
+        data.medias = medias
+      }
+    }
+    if (roomId) {
       messageService
-        .sendMessage({ text: text, roomId: roomId })
-        .then((data) => {
+        .sendMessage({ text: data.text, roomId: roomId, medias: data.medias })
+        .then(async (data) => {
           socket.emit(keySocket.sendMessageToRoom, {
             sender: user.userId,
             roomId: roomId
           })
-          console.log(data)
           const newMessage = [...messages, data]
           setMessages(newMessage)
-          setText('')
+          setValue('text', '')
+          setValue('files', [])
+          setFiles([])
         })
     }
   })
   const handleOpenFile = () => {
+    setFiles([])
+
     if (!!inputRef.current) inputRef.current.click()
   }
+  const handleDeleteMedia = (index: number) => {
+    const newFiles = [...files].filter((item, id) => id !== index)
+    setFiles(newFiles)
+  }
   return (
-    <div className='m-2'>
-      <div
-        className='message_header'
-        style={{
-          cursor: 'pointer',
-          boxShadow: 'rgba(0, 0, 0, 0.16) 0px 1px 4px'
-        }}
-      ></div>
-
-      <div
-        className='chat_container'
-        style={{ height: media.length > 0 ? 'calc(100% - 180px)' : '' }}
-      >
-        <div className='chat_display' ref={refDisplay}>
+    <div className=''>
+      <div id='chat_container' className='chat_container'>
+        <div id='chat_display' className='chat_display'>
           {messages.map((message, index) => (
             <div key={index}>
               {message.sender._id !== user.userId && (
@@ -94,6 +105,29 @@ const Room = () => {
             </div>
           ))}
         </div>
+        <div id='file_display' className=' flex gap-4 bg-[#b27272]'>
+          {files &&
+            files.length > 0 &&
+            files.map((item, index) => {
+              return (
+                <div className='relative' key={index}>
+                  <div className='h-24 w-24'>
+                    <img
+                      className=' object-cover'
+                      src={URL.createObjectURL(item)}
+                      alt=''
+                    />
+                  </div>
+                  <div
+                    className='absolute -top-2 -right-2 cursor-pointer'
+                    onClick={() => handleDeleteMedia(index)}
+                  >
+                    <AiOutlineCloseCircle size={20} color='#fff' />
+                  </div>
+                </div>
+              )
+            })}
+        </div>
       </div>
 
       <div className='flex w-full  '>
@@ -102,31 +136,38 @@ const Room = () => {
           onSubmit={onSubmit}
         >
           <div className='relative flex flex-1 rounded-lg '>
-            <input
-              className='w-full rounded-lg p-2 '
-              type='text'
-              placeholder='Send message...'
-              value={text}
-              onChange={(e) => setText(e.target.value)}
+            <Input
+              className='w-full rounded-lg  p-2'
+              control={control}
+              name='text'
             />
 
-            <button type='submit' className='absolute top-0 bottom-0 right-4'>
-              <RiSendPlane2Fill
-                className=''
-                cursor={'pointer'}
-                color={text ? '#499BA2' : '#fff'}
-                fontSize={20}
-              />
-            </button>
+            {(watch('text') || watch('files')) && (
+              <button type='submit' className='absolute top-0 bottom-0 right-4'>
+                <RiSendPlane2Fill
+                  className=''
+                  cursor={'pointer'}
+                  color='#499BA2'
+                  fontSize={20}
+                />
+              </button>
+            )}
           </div>
+          <button type='button'>
+            <Photo
+              ref={inputRef}
+              name='files'
+              control={control}
+              type='file'
+              onChange={(files) => {
+                if (files.length > 0) {
+                  setFiles(files)
+                }
+              }}
+              onClick={handleOpenFile}
+            />
+          </button>
 
-          <Photo
-            ref={inputRef}
-            name='file'
-            control={control}
-            type='file'
-            onClick={handleOpenFile}
-          />
           <button type='button'>
             <FcVideoCall fontSize={40} />
           </button>

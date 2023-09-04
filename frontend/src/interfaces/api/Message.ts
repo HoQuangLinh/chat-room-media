@@ -5,14 +5,14 @@ import { IUser } from '../base/User'
 export interface IMessageRequest {
   roomId: string
   text?: string
-  media?: IMedia
+  medias?: IMedia[]
 }
 
 export interface IMessagePayload {
   sender: IUser
   room?: IRoom
   text?: string
-  media?: IMedia
+  medias?: IMedia[]
 }
 
 export interface IMessageResponse extends IMessagePayload {

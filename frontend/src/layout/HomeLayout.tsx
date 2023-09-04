@@ -11,9 +11,9 @@ const HomeLayout = () => {
   }, [])
   return (
     <div>
-      <div className='flex h-screen'>
+      <div className='flex min-h-screen bg-[#313338] '>
         <Sidebar />
-        <div className='ml-64 w-full bg-[#313338] p-6'>
+        <div className='ml-64 w-full  p-6'>
           <Outlet />
         </div>
       </div>

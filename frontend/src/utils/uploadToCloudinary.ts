@@ -1,7 +1,7 @@
 import axios from 'axios'
 export interface ICloudinaryResponse {
-  public_id: string
   url: string
+  type: string
 }
 export const uploadToCloudinary = async (files: File[]) => {
   const uploadFiles = files.map(async (file) => {
@@ -18,8 +18,8 @@ export const uploadToCloudinary = async (files: File[]) => {
         )
         .then((response) => {
           resolve({
-            public_id: response.data.public_id,
-            url: response.data.url
+            url: response.data.url,
+            type: 'image'
           })
         })
         .catch((error) => {

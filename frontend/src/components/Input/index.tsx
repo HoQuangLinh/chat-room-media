@@ -7,6 +7,7 @@ import {
   RegisterOptions
 } from 'react-hook-form'
 import { Multiselect } from 'multiselect-react-dropdown'
+import { overrideTailwindClasses } from 'tailwind-override'
 
 interface IOption {
   value: string
@@ -28,6 +29,7 @@ interface InputProps<T extends FieldValues> {
   >
   onChange?: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>
   onSelect?: (selectedOptions: IOption[]) => void
+  className?: string
 }
 type TInputElement = {
   onChange: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>
@@ -44,7 +46,8 @@ const Input = <T extends FieldValues>(props: InputProps<T>) => {
     options,
     rules,
     onChange,
-    onSelect
+    onSelect,
+    className
   } = props
 
   const renderInputElement = (inputProps: TInputElement) => {
@@ -55,6 +58,7 @@ const Input = <T extends FieldValues>(props: InputProps<T>) => {
             {options?.map((option, index) => (
               <div className='ml-4' key={option.value}>
                 <input
+                  className={className && overrideTailwindClasses(className)}
                   type='radio'
                   id={`${name}-${option.value}`}
                   {...inputProps}
@@ -109,7 +113,9 @@ const Input = <T extends FieldValues>(props: InputProps<T>) => {
             }}
             type={type}
             placeholder={placeholder}
-            className='w-full rounded-[3px] bg-blackCt p-[10px] text-whiteCt'
+            className={overrideTailwindClasses(
+              `w-full rounded-[3px] bg-blackCt p-[10px] text-whiteCt ${className}`
+            )}
           />
         )
     }
@@ -121,7 +127,7 @@ const Input = <T extends FieldValues>(props: InputProps<T>) => {
       control={control}
       rules={rules}
       render={({ field }) => (
-        <div className='block'>
+        <div className='block w-full'>
           {label && (
             <div className='mt-4 mb-2 flex justify-between text-xs font-bold uppercase'>
               <label htmlFor={name} className='text-greyLabelCt'>
