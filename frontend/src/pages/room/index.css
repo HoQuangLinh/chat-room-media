@@ -14,18 +14,6 @@
 }
 
 /* -------- Chat Input----- */
-.chat_input {
-  margin: 0px;
-}
-.chat_input input {
-  width: 100%;
-  border: none;
-  outline: none;
-  color: #222;
-
-  border-radius: 10px;
-  padding: 10px 10px;
-}
 
 .chat_container {
   width: 100%;

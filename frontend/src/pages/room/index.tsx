@@ -10,14 +10,23 @@ import { useParams } from 'react-router-dom'
 import './index.css'
 import { FcVideoCall } from 'react-icons/fc'
 import { AiFillPicture } from 'react-icons/ai'
+import Photo from '../../components/Photo'
+import { IFormMessage } from '@/interfaces/form/message/Message'
+import { useForm } from 'react-hook-form'
 const Room = () => {
   const rootSelector = useRootSelector((state) => state)
   const socket = socketService.getSocketInstance()
   const { user, room } = rootSelector!
-
+  const inputRef = useRef<HTMLInputElement>(null)
   const { roomId } = useParams()
   const [text, setText] = useState('')
   const [media, setMedia] = useState([])
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+    getValues
+  } = useForm<IFormMessage>()
 
   const refDisplay = useRef<any>()
 
@@ -31,8 +40,8 @@ const Room = () => {
       setMessages(messages)
     })
   }, [roomId, room.myRooms])
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
-    event.preventDefault()
+  const onSubmit = handleSubmit((data) => {
+    console.log(data)
     if (!text) {
       return
     }
@@ -50,8 +59,10 @@ const Room = () => {
           setText('')
         })
     }
+  })
+  const handleOpenFile = () => {
+    if (!!inputRef.current) inputRef.current.click()
   }
-
   return (
     <div className='m-2'>
       <div
@@ -85,37 +96,41 @@ const Room = () => {
         </div>
       </div>
 
-      <div className='flex w-full gap-4 px-12'>
+      <div className='flex w-full  '>
         <form
-          className='chat_input relative flex flex-1 items-center justify-between bg-greyCt'
-          onSubmit={handleSubmit}
+          className='flex flex-1  items-center justify-between gap-4 bg-greyCt px-12'
+          onSubmit={onSubmit}
         >
-          <input
-            type='text'
-            placeholder='Send message...'
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-          />
-          <button type='submit' className='absolute right-4'>
-            <RiSendPlane2Fill
-              className=''
-              cursor={'pointer'}
-              color={text ? '#499BA2' : '#fff'}
-              fontSize={20}
+          <div className='relative flex flex-1 rounded-lg '>
+            <input
+              className='w-full rounded-lg p-2 '
+              type='text'
+              placeholder='Send message...'
+              value={text}
+              onChange={(e) => setText(e.target.value)}
             />
-          </button>
 
-          {/* <div className='file_upload'>
-          <i className='fas fa-image text-red-500' />
-          <input type='file' name='file' id='file' multiple accept='image/*' />
-        </div> */}
+            <button type='submit' className='absolute top-0 bottom-0 right-4'>
+              <RiSendPlane2Fill
+                className=''
+                cursor={'pointer'}
+                color={text ? '#499BA2' : '#fff'}
+                fontSize={20}
+              />
+            </button>
+          </div>
+
+          <Photo
+            ref={inputRef}
+            name='file'
+            control={control}
+            type='file'
+            onClick={handleOpenFile}
+          />
+          <button type='button'>
+            <FcVideoCall fontSize={40} />
+          </button>
         </form>
-        <button type='button'>
-          <FcVideoCall fontSize={40} />
-        </button>
-        <button>
-          <AiFillPicture fontSize={30} color='#499be8' />
-        </button>
       </div>
     </div>
   )

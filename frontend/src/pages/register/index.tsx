@@ -1,7 +1,11 @@
 import Input from '@/components/Input'
+import { keyStorage } from '@/const/keyStorage'
 import { path } from '@/const/path'
 import { IFormRegister } from '@/interfaces/form/auth/Auth'
+import { setIsAuthenticate } from '@/redux/reducers/user.reducer'
+import { authService } from '@/services/auth.service'
 import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 const Register = () => {
@@ -11,9 +15,13 @@ const Register = () => {
     formState: { errors },
     getValues
   } = useForm<IFormRegister>()
+  const dispatch = useDispatch()
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data)
+  const onSubmit = handleSubmit((formRegister) => {
+    authService.register(formRegister).then((accessToken) => {
+      localStorage.setItem(keyStorage.accessToken, accessToken)
+      dispatch(setIsAuthenticate(true))
+    })
   })
 
   return (
