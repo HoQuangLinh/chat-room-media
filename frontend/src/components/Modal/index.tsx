@@ -28,6 +28,9 @@ const Modal = forwardRef<IModalHandles, IModalProps>((props, ref) => {
     setIsOpen(false)
   }, [])
   useEffect(() => {
+    setIsOpen(props.isOpen)
+  }, [props.isOpen])
+  useEffect(() => {
     document.body.style.overflow = 'hidden'
   }, [])
   useImperativeHandle(

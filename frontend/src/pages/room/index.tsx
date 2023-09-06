@@ -5,16 +5,20 @@ import { keySocket } from '@/const/keySocket'
 import { IMessageResponse } from '@/interfaces/api/Message'
 import { IFormMessage } from '@/interfaces/form/message/Message'
 import { useRootSelector } from '@/redux/reducers'
+import { createCall } from '@/redux/reducers/call.reducer'
 import { messageService } from '@/services/message.service'
 import socketService from '@/services/socket.service'
+import { uploadToCloudinary } from '@/utils/uploadToCloudinary'
 import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { FcVideoCall } from 'react-icons/fc'
 import { RiSendPlane2Fill } from 'react-icons/ri'
+import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import './index.css'
-import { uploadToCloudinary } from '@/utils/uploadToCloudinary'
+import { ICallPayload } from '../../interfaces/stores/CallStore'
+import peerService from '../../services/peer.service'
 const Room = () => {
   const rootSelector = useRootSelector((state) => state)
   const socket = socketService.getSocketInstance()
@@ -22,6 +26,7 @@ const Room = () => {
   const inputRef = useRef<HTMLInputElement>(null)
   const { roomId } = useParams()
   const [files, setFiles] = useState<File[]>([])
+  const dispatch = useDispatch()
 
   const { handleSubmit, control, setValue, watch } = useForm<IFormMessage>({})
 
@@ -44,6 +49,27 @@ const Room = () => {
         block: 'end'
       })
     }
+  }
+
+  const handleCallVideo = async () => {
+    if (!roomId) {
+      return
+    }
+    const mePayload: ICallPayload = {
+      sender: user.userId,
+      roomId: roomId,
+      username: user.username,
+      isVideo: true
+    }
+
+    const socket = socketService.getSocketInstance()
+    const peer = peerService.getPeerInstance()
+    if (peer?.open) {
+      mePayload.peerId = peer.id
+    }
+
+    await socket.emit(keySocket.callToRoom, mePayload)
+    dispatch(createCall(mePayload))
   }
   useEffect(() => {
     scrollMessageIntoBottom()
@@ -172,7 +198,7 @@ const Room = () => {
             />
           </button>
 
-          <button type='button'>
+          <button onClick={handleCallVideo} type='button'>
             <FcVideoCall fontSize={40} />
           </button>
         </form>

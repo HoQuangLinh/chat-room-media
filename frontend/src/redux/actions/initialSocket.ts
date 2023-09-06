@@ -3,6 +3,7 @@ import socketService from '@/services/socket.service'
 import { IUserPayload, decodeTokenFromLocalStorage } from '@/utils/jwtToken'
 import { Dispatch } from '@reduxjs/toolkit'
 import { receiveMessage, setMyRooms } from '../reducers/room.reducer'
+import { createCall } from '../reducers/call.reducer'
 
 interface IUserSocket {
   id: string
@@ -18,8 +19,9 @@ export const initialSocketAction = (userPayload: IUserPayload): any => {
     socket.emit(keySocket.joinUser, userParams)
     socket.on(keySocket.messageFromRoom, (data) => {
       dispatch(receiveMessage(data))
-
-      console.log(data)
+    })
+    socket.on(keySocket.callFromRoom, (data) => {
+      dispatch(createCall(data))
     })
   }
 }
