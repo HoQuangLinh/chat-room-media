@@ -1,11 +1,11 @@
-import Modal, { TModalHandles } from '@/components/Modal'
+import Modal, { IModalHandles } from '@/components/Modal'
 import { useRef } from 'react'
 import { IoIosAdd } from 'react-icons/io'
 import NewRoom from '../../components/NewRoom'
 import MyRooms from './MyRooms'
 
 const Manager = () => {
-  const modalRef = useRef<TModalHandles>(null)
+  const modalRef = useRef<IModalHandles>(null)
   return (
     <div className='w-full'>
       <div className='flex w-full items-center justify-between pb-3'>

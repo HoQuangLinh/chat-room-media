@@ -38,7 +38,7 @@ const Photo = React.forwardRef<HTMLInputElement, TPhoto>((props, ref) => {
         }}
       >
         <div className='flex  items-center justify-center  '>
-          <button>
+          <button type='button'>
             <AiFillPicture fontSize={30} color='#499be8' />
           </button>
         </div>

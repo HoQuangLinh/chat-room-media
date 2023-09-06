@@ -1,23 +1,35 @@
-import React, { useCallback, useImperativeHandle, useState } from 'react'
+import {
+  ReactNode,
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useState
+} from 'react'
 import { createPortal } from 'react-dom'
 import { CgClose } from 'react-icons/cg'
 const modalElement = document.getElementById('modal-root')!
-export type TModalProps = {
-  children: React.ReactNode
+export interface IModalProps {
+  isOpen?: boolean
+  children: ReactNode
   className?: string
+  disableCloseClickOutside?: boolean
 }
 
-export type TModalHandles = {
+export interface IModalHandles {
   openModal: () => void
   closeModal: () => void
 }
 
-const Modal = React.forwardRef<TModalHandles, TModalProps>((props, ref) => {
-  const [isOpen, setIsOpen] = useState(false)
+const Modal = forwardRef<IModalHandles, IModalProps>((props, ref) => {
+  const [isOpen, setIsOpen] = useState(props.isOpen)
   const closeModal = useCallback(() => {
+    document.body.style.overflow = 'unset'
     setIsOpen(false)
   }, [])
-
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+  }, [])
   useImperativeHandle(
     ref,
     () => ({
@@ -30,8 +42,13 @@ const Modal = React.forwardRef<TModalHandles, TModalProps>((props, ref) => {
   return createPortal(
     isOpen ? (
       <div
-        onClick={closeModal}
-        className='fixed top-0 left-0 flex h-screen w-screen items-center justify-center bg-[#1e1f22db] transition-all'
+        onClick={() => {
+          if (props.disableCloseClickOutside) {
+            return
+          }
+          closeModal()
+        }}
+        className='fixed top-0 left-0 flex h-screen w-screen items-center justify-center overflow-hidden bg-[#1e1f22db] transition-all'
       >
         <div
           onClick={(e) => {

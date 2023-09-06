@@ -6,13 +6,13 @@ import { BiChevronDown, BiChevronUp } from 'react-icons/bi'
 import { HiLockClosed } from 'react-icons/hi'
 import { RiEarthFill } from 'react-icons/ri'
 import { FaUserPlus } from 'react-icons/fa'
-import Modal, { TModalHandles } from '@/components/Modal'
+import Modal, { IModalHandles } from '@/components/Modal'
 import AddPeople from '@/components/AddPeople'
 
 const MyRooms = () => {
   const roomSelector = useRootSelector((item) => item.room)
   const [isCollapsed, setIsCollapsed] = useState<number>(-1)
-  const modalRef = useRef<TModalHandles>(null)
+  const modalRef = useRef<IModalHandles>(null)
   const toggleCollapse = (index: number) => {
     setIsCollapsed(index)
   }

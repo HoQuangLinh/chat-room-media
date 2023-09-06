@@ -14,7 +14,7 @@ import { FcVideoCall } from 'react-icons/fc'
 import { RiSendPlane2Fill } from 'react-icons/ri'
 import { useParams } from 'react-router-dom'
 import './index.css'
-import { uploadToCloudinary } from '../../utils/uploadToCloudinary'
+import { uploadToCloudinary } from '@/utils/uploadToCloudinary'
 const Room = () => {
   const rootSelector = useRootSelector((state) => state)
   const socket = socketService.getSocketInstance()
@@ -23,7 +23,7 @@ const Room = () => {
   const { roomId } = useParams()
   const [files, setFiles] = useState<File[]>([])
 
-  const { handleSubmit, control, setValue, watch } = useForm<IFormMessage>()
+  const { handleSubmit, control, setValue, watch } = useForm<IFormMessage>({})
 
   const [messages, setMessages] = useState<IMessageResponse[]>([])
 
@@ -133,7 +133,11 @@ const Room = () => {
       <div className='flex w-full  '>
         <form
           className='flex flex-1  items-center justify-between gap-4 bg-greyCt px-12'
-          onSubmit={onSubmit}
+          onSubmit={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            onSubmit()
+          }}
         >
           <div className='relative flex flex-1 rounded-lg '>
             <Input
@@ -164,7 +168,7 @@ const Room = () => {
                   setFiles(files)
                 }
               }}
-              onClick={handleOpenFile}
+              onClick={() => handleOpenFile()}
             />
           </button>
 
