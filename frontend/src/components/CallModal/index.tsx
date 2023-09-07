@@ -1,30 +1,25 @@
 import { useRootSelector } from '@/redux/reducers'
 import peerService from '@/services/peer.service'
-import {
-  FC,
-  RefObject,
-  createElement,
-  useEffect,
-  useRef,
-  useState
-} from 'react'
+import React, { useEffect, useState } from 'react'
 import { FcEndCall, FcVideoCall } from 'react-icons/fc'
 import Avatar from '../Avatar'
 import Modal from '../Modal'
-import { useSelector } from 'react-redux'
-import React from 'react'
+import Video from '../Video'
 
 interface IUserStream {
   username: string
-  video: any
 }
 interface ICallModalProps {
   isOpen?: boolean
 }
+interface IUserStream {
+  username: string
+  stream: MediaStream
+}
 const CallModal = (props: ICallModalProps) => {
+  const [myStream, setMyStreams] = React.useState<IUserStream>()
+  const [remoteStreams, setRemoteStreams] = React.useState<IUserStream[]>([])
   const { isOpen } = props
-  const [userStreams, setUserStreams] = useState<IUserStream[]>([])
-  const videoRefs = useRef<HTMLVideoElement[]>([])
 
   const [isAnswer, setIsAnswer] = useState(false)
   const peer = peerService.getPeerInstance()
@@ -35,31 +30,25 @@ const CallModal = (props: ICallModalProps) => {
   useEffect(() => {
     if (user.userId === calling?.sender) {
       openStream(true).then((stream) => {
-        console.log('oke pro')
-        setUserStreams((item) => [
-          {
-            username: user.username,
-            video: VideoStream(videoRefs.current[0], stream)
-          }
-        ])
+        setMyStreams({
+          username: user.username,
+          stream: stream
+        })
       })
     }
-  }, [user, calling])
-  console.log(userStreams)
+  }, [calling])
+
   useEffect(() => {
     peer &&
       peer.on('call', (newCall) => {
         console.log('2')
         openStream(!calling?.isVideo).then((stream) => {
-          if (myVideo.current) {
-            console.log(stream)
-            VideoStream(myVideo.current, stream)
-          }
           newCall.answer(stream)
           newCall.on('stream', function (remoteStream) {
-            if (otherVideo.current) {
-              VideoStream(otherVideo.current, remoteStream)
-            }
+            setRemoteStreams((item) => [
+              ...item,
+              { stream: remoteStream, username: 'Hello' }
+            ])
           })
           console.log('123')
           setIsAnswer(true)
@@ -68,43 +57,32 @@ const CallModal = (props: ICallModalProps) => {
     return () => {
       peer && peer.removeListener('call')
     }
-  }, [peer, calling?.isVideo])
+  }, [])
   const openStream = (video: boolean) => {
-    const config = { audio: true, video }
+    const config = { audio: true, video: true }
     return navigator.mediaDevices.getUserMedia(config)
   }
-  const myVideo = useRef<HTMLVideoElement>(null)
-  const otherVideo = useRef<HTMLVideoElement>(null)
-  const VideoStream = (tag: HTMLVideoElement, stream: any) => {
-    debugger
-    const videoRef = useRef<HTMLVideoElement>(null)
 
-    useEffect(() => {
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream
-        videoRef.current.play()
-      }
-    }, [stream])
-
-    return <video ref={videoRef} autoPlay playsInline muted controls />
-  }
   const handleAnswer = () => {
     if (!calling) {
       return
     }
 
-    openStream(!calling.isVideo).then((stream) => {
-      if (myVideo.current) {
-        VideoStream(myVideo.current, stream)
-        if (peer && calling.peerId) {
-          //get list peers of users
-          const newCall = peer.call(calling.peerId, stream)
-          newCall.on('stream', function (remoteStream) {
-            if (otherVideo.current) {
-              VideoStream(otherVideo.current, remoteStream)
+    openStream(calling.isVideo).then((stream) => {
+      if (peer && calling.peerId) {
+        //get list peers of users
+        console.log('test render')
+        const newCall = peer.call(calling.peerId, stream)
+        newCall.on('stream', function (remoteStream) {
+          console.log('test stream')
+          setRemoteStreams((item) => [
+            ...item,
+            {
+              stream: remoteStream,
+              username: 'Linh'
             }
-          })
-        }
+          ])
+        })
       }
     })
 
@@ -133,36 +111,45 @@ const CallModal = (props: ICallModalProps) => {
   }
   const renderModalCall = () => {
     return (
-      <div
-        className='flex w-full flex-wrap gap-4'
-        // style={{
-        //   opacity: !isAnswer && user.userId !== calling?.sender ? 0 : 1
-        // }}
-      >
-        {userStreams.map((user, index) => {
+      <div className='flex w-full flex-wrap gap-4'>
+        {myStream && (
+          <div
+            key={-1}
+            className='relative h-[300px] w-1/2 max-w-[400px] flex-1 rounded-lg bg-[#1e1f22db]  text-whiteCt'
+          >
+            <div className='absolute top-0 bottom-0 left-0 right-0 flex flex-col items-center justify-center'>
+              {myStream?.username && (
+                <Avatar size='100' name={myStream.username} />
+              )}
+              {myStream?.username && (
+                <p className='py-2'>{myStream.username}</p>
+              )}
+            </div>
+            {myStream?.stream && <Video stream={myStream.stream} />}
+          </div>
+        )}
+        {remoteStreams.map((userStream, index) => {
           return (
-            <div className='relative h-[300px] w-1/2 flex-1 rounded-lg bg-[#1e1f22db] p-4 text-whiteCt'>
+            <div
+              key={index}
+              className='relative h-[300px] w-1/2 max-w-[400px] flex-1 rounded-lg bg-[#1e1f22db]  text-whiteCt'
+            >
               <div className='absolute top-0 bottom-0 left-0 right-0 flex flex-col items-center justify-center'>
-                <Avatar size='100' name={user.username} />
-                <p className='py-2'>{user.username}</p>
+                {userStream?.username && (
+                  <Avatar size='100' name={userStream.username} />
+                )}
+                {userStream?.username && (
+                  <p className='py-2'>{userStream.username}</p>
+                )}
               </div>
-              {user.video}
-              {/* <video ref={user.video} className='h-full'  playsInline muted /> */}
+              {userStream?.stream && <Video stream={userStream.stream} />}
             </div>
           )
         })}
-
-        {/* <div className='relative h-[300px] w-1/2 flex-1 rounded-lg bg-[#1e1f22db] p-4 text-whiteCt'>
-          <div className='absolute top-0 bottom-0 left-0 right-0 flex flex-col items-center justify-center'>
-            <Avatar size='100' name='Linh' />
-            <p className='py-2'>Linh</p>
-          </div>
-          <video ref={otherVideo} playsInline />
-        </div> */}
       </div>
     )
   }
-
+  console.log({ myStream, remoteStreams })
   return (
     <Modal
       isOpen={isOpen}

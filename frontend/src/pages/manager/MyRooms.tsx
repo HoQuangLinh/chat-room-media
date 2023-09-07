@@ -18,7 +18,7 @@ const MyRooms = () => {
   }
 
   return (
-    <>
+    <div className='overflow-y-scroll'>
       {roomSelector &&
         roomSelector?.myOwnerRooms.map((item, index) => {
           return (
@@ -86,7 +86,7 @@ const MyRooms = () => {
           }}
         />
       </Modal>
-    </>
+    </div>
   )
 }
 
