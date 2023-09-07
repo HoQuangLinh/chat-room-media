@@ -1,29 +1,63 @@
 import { Socket } from 'socket.io'
 import { SOCKET_KEYS } from './const/socketKeys'
+import RoomModel from './entities/Room'
 
 interface IUserSocket {
   id: string
   socketId: string
+  peerId?: string
+  roomIds?: string[]
 }
 let users: IUserSocket[] = []
 
 const SocketServer = (socket: Socket) => {
   // Connect
-  socket.on(SOCKET_KEYS.joinUser, (user) => {
+  socket.on(SOCKET_KEYS.joinUser, async (user: IUserSocket) => {
+    console.log(user)
     console.log('join socket')
+    const me = user.id
+    const myRoomIds = await RoomModel.find({
+      $or: [
+        {
+          creator: me
+        },
+        { members: { $in: [me] } }
+      ]
+    })
     users.push({
-      id: user._id,
-      socketId: socket.id
+      id: me,
+      socketId: socket.id,
+      peerId: user.peerId,
+      roomIds: myRoomIds.map((item) => item._id.toString())
     })
   })
   socket.on(SOCKET_KEYS.sendMessageToRoom, (data) => {
     users
-      .filter((user) => user.id !== data.sender)
+      .filter(
+        (user) =>
+          user.id !== data.sender &&
+          user.roomIds?.includes(data.roomId)
+      )
       .forEach((client) => {
         socket
           .to(`${client.socketId}`)
           .emit(SOCKET_KEYS.messageFromRoom, data)
       })
+  })
+
+  socket.on(SOCKET_KEYS.callToRoom, (data) => {
+    const userByRoomId = users.filter(
+      (user) =>
+        user.roomIds?.includes(data.roomId) && user.id !== data.sender
+    )
+    const peersByRoomId = userByRoomId.map((item) => item.peerId)
+    console.log(peersByRoomId)
+    userByRoomId.forEach((client) => {
+      socket.to(`${client.socketId}`).emit(SOCKET_KEYS.callFromRoom, {
+        ...data,
+        peerIds: peersByRoomId
+      })
+    })
   })
 
   socket.on(SOCKET_KEYS.disconnect, () => {

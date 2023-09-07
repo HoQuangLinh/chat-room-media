@@ -12,7 +12,7 @@ const HomeLayout = () => {
 
   useEffect(() => {
     dispatch(initialData())
-    peerService.initPeerInstance()
+    // peerService.initPeerInstance()
   }, [])
   console.log(!!call?.calling)
   return (
