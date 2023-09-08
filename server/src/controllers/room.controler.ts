@@ -1,6 +1,9 @@
 import { injectable } from 'tsyringe'
 import { IRequest, IResponse } from '../interfaces/common'
-import { ICreateRoomRequestDTO } from '../interfaces/dto/RoomDTO'
+import {
+  ICreateRoomRequestDTO,
+  IFormAddMember
+} from '../interfaces/dto/RoomDTO'
 import RoomService from '../services/room.service'
 
 @injectable()
@@ -8,11 +11,20 @@ export class RoomController {
   constructor(private roomService: RoomService) {}
   async createRoom(req: IRequest, res: IResponse) {
     const roomRequestDto = req.body as ICreateRoomRequestDTO
-
     roomRequestDto.creator = req.user.userId
     const room = await this.roomService.createRoom(roomRequestDto)
     return res.success(room)
   }
+
+  async addMembersToRoom(req: IRequest, res: IResponse) {
+    const roomRequestDto = req.body as IFormAddMember
+    roomRequestDto.creator = req.user.userId
+    const room = await this.roomService.addMembersToRoom(
+      roomRequestDto
+    )
+    return res.success(room)
+  }
+
   async getMyOwnerRooms(req: IRequest, res: IResponse) {
     const creator = req.user.userId
     const myOwnerRoom = await this.roomService.getMyOwnerRooms(

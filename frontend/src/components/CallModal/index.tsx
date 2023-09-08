@@ -172,12 +172,16 @@ const CallModal = (props: ICallModalProps) => {
               key={index}
               className='relative h-[300px] w-1/2 max-w-[400px] flex-1 rounded-lg bg-[#1e1f22db]  text-whiteCt'
             >
-              <div className='absolute top-0 bottom-0 left-0 right-0 flex flex-col items-center justify-center'>
+              <div className='absolute top-4 left-4 flex items-center gap-2'>
                 {userStream?.username && (
-                  <Avatar size='100' name={userStream.username} />
+                  <Avatar
+                    textSizeRatio={2}
+                    size='60'
+                    name={userStream.username}
+                  />
                 )}
                 {userStream?.username && (
-                  <p className='py-2'>{userStream.username}</p>
+                  <p className='py-2 text-xl'>{userStream.username}</p>
                 )}
               </div>
               {userStream?.stream && <Video stream={userStream.stream} />}

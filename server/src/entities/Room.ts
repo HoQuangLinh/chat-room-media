@@ -16,11 +16,7 @@ const roomSchema = new mongoose.Schema(
       enum: ['public', 'private'],
       default: 'public'
     },
-    members: [{ type: mongoose.Types.ObjectId, ref: 'user' }],
-
-    avatar: {
-      type: String
-    }
+    members: [{ type: mongoose.Types.ObjectId, ref: 'user' }]
   },
   {
     timestamps: true

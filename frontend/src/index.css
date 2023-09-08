@@ -23,11 +23,13 @@ body {
 }
 
 .scroll-ruler::-webkit-scrollbar,
+.scroll-chat-ruler::-webkit-scrollbar,
 #multiselectContainerReact .optionContainer::-webkit-scrollbar {
   width: 8px;
   height: 16px;
 }
 .scroll-ruler::-webkit-scrollbar-thumb,
+.scroll-chat-ruler::-webkit-scrollbar-thumb,
 #multiselectContainerReact .optionContainer::-webkit-scrollbar-thumb {
   background-color: #6e6f70;
   border-radius: 10px;
@@ -35,6 +37,11 @@ body {
 .scroll-ruler::-webkit-scrollbar-track,
 #multiselectContainerReact .optionContainer::-webkit-scrollbar-track {
   border-color: #26282c;
+}
+
+.scroll-chat-ruler::-webkit-scrollbar-track {
+  background-color: #202124;
+  border-radius: 10px;
 }
 
 .active-border {

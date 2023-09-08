@@ -12,14 +12,13 @@ const HomeLayout = () => {
 
   useEffect(() => {
     dispatch(initialData())
-    // peerService.initPeerInstance()
   }, [])
 
   return (
     <div>
       <div className='flex min-h-screen bg-[#313338] '>
         <Sidebar />
-        <div className='ml-64 w-full  p-6'>
+        <div className='scroll-ruler ml-64 h-screen w-full overflow-auto p-6'>
           <CallModal isOpen={!!call?.calling} />
           <Outlet />
         </div>

@@ -1,6 +1,6 @@
 import { roomEndpoint } from '@/const/apiEndpoint'
 import { IApiResponse } from '@/interfaces/api/Http'
-import { IFormCreateRoom } from '@/interfaces/form/room/Room'
+import { IFormAddMember, IFormCreateRoom } from '@/interfaces/form/room/Room'
 import http from './http.service'
 
 class RoomService {
@@ -15,8 +15,17 @@ class RoomService {
     const res = await http.get<IApiResponse<any>>(roomEndpoint.getMyRooms)
     return res.data.data
   }
+
   async getMyOwnerRooms(): Promise<any> {
     const res = await http.get<IApiResponse<any>>(roomEndpoint.getMyOwnerRooms)
+    return res.data.data
+  }
+
+  async addMemberToRooms(payload: IFormAddMember): Promise<any> {
+    const res = await http.post<IApiResponse<boolean>>(
+      roomEndpoint.addMembersToRoom,
+      payload
+    )
     return res.data.data
   }
 }

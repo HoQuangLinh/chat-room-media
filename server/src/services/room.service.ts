@@ -1,6 +1,10 @@
 import { injectable } from 'tsyringe'
-import { ICreateRoomRequestDTO } from '../interfaces/dto/RoomDTO'
+import {
+  ICreateRoomRequestDTO,
+  IFormAddMember
+} from '../interfaces/dto/RoomDTO'
 import RoomModel from '../entities/Room'
+import mongoose from 'mongoose'
 @injectable()
 export default class RoomService {
   async createRoom(
@@ -18,6 +22,19 @@ export default class RoomService {
     })
     await newRoom.save()
     return newRoom.populate('members', '-password')
+  }
+  async addMembersToRoom(roomRequestDto: IFormAddMember) {
+    const { creator, members, roomId } = roomRequestDto
+    if (!roomId || !creator || members.length === 0) {
+      throw new Error('data is required')
+    }
+    const room = await RoomModel.findById(roomId)
+    if (!room) {
+      throw new Error('room not found')
+    }
+    room.members.push(...(members as any))
+    await room.save()
+    return room.populate('members', '-password')
   }
   async getMyOwnerRooms(creator: string) {
     const myOwnerRoom = await RoomModel.find({

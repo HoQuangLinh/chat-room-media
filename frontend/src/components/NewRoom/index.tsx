@@ -46,7 +46,7 @@ const NewRoom = (props: INewRoomProps) => {
   const [activeTab, setActiveTab] = useState(0)
   useEffect(() => {
     userService.getAllUser().then((data) => {
-      setUsers(data)
+      setUsers(data.filter((item) => item._id !== userSelector?.userId))
     })
   }, [])
 

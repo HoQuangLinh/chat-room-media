@@ -1,7 +1,8 @@
 import { IUserResponse } from '@/interfaces/api/User'
-import { IFormCreateRoom } from '@/interfaces/form/room/Room'
+import { IRoom } from '@/interfaces/base/Room'
+import { IFormAddMember } from '@/interfaces/form/room/Room'
 import { useRootSelector } from '@/redux/reducers'
-import { createRoom } from '@/redux/reducers/room.reducer'
+import { addMembersToRoom } from '@/redux/reducers/room.reducer'
 import { roomService } from '@/services/room.service'
 import userService from '@/services/user.service'
 import { useEffect, useState } from 'react'
@@ -11,13 +12,16 @@ import Input from '../Input'
 
 interface INewRoomProps {
   onCloseModal: () => void
+  selectedRoomId: string
+  selectedRoom: IRoom
 }
 const AddPeople = (props: INewRoomProps) => {
-  const { onCloseModal } = props
-  const { handleSubmit, control, setValue } = useForm<IFormCreateRoom>({
+  const { onCloseModal, selectedRoomId, selectedRoom } = props
+  const ownMember = selectedRoom.members
+  const { handleSubmit, control, setValue } = useForm<IFormAddMember>({
     defaultValues: {
       members: [],
-      visibility: 'public'
+      roomId: selectedRoomId
     }
   })
   const [users, setUsers] = useState<IUserResponse[]>([])
@@ -25,19 +29,26 @@ const AddPeople = (props: INewRoomProps) => {
   const dispatch = useDispatch()
 
   const onSubmit = handleSubmit((data) => {
-    const formCreateRoom = data
+    const formAddMembers = data
     if (userSelector?.userId) {
-      formCreateRoom.members = [userSelector.userId, ...formCreateRoom.members]
+      formAddMembers.members = [...formAddMembers.members]
     }
 
-    roomService.createRoom(formCreateRoom).then((data) => {
-      dispatch(createRoom(data))
+    roomService.addMemberToRooms(formAddMembers).then((data) => {
+      console.log(data)
+      dispatch(addMembersToRoom(data))
       onCloseModal && onCloseModal()
     })
   })
   useEffect(() => {
     userService.getAllUser().then((data) => {
-      setUsers(data)
+      setUsers(
+        data.filter(
+          (item) =>
+            item._id !== userSelector?.userId &&
+            !ownMember?.find((own) => own.username === item.username)
+        )
+      )
     })
   }, [])
 

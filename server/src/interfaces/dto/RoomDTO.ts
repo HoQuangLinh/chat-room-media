@@ -5,3 +5,9 @@ export interface ICreateRoomRequestDTO {
   visibility: TVisibility
   members?: string[]
 }
+
+export interface IFormAddMember {
+  creator: string
+  roomId: string
+  members: string[]
+}

@@ -10,6 +10,7 @@ export const userEndpoint = {
 
 export const roomEndpoint = {
   createRoom: 'api/room/createRoom',
+  addMembersToRoom: 'api/room/addMembersToRoom',
   getMyOwnerRooms: 'api/room/getMyOwnerRooms',
   getMyRooms: 'api/room/getMyRooms'
 }

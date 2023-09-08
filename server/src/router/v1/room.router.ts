@@ -26,5 +26,10 @@ roomRouter.post(
   auth,
   catchAsync(roomController.createRoom.bind(roomController))
 )
+roomRouter.post(
+  '/addMembersToRoom',
+  auth,
+  catchAsync(roomController.addMembersToRoom.bind(roomController))
+)
 
 export default roomRouter

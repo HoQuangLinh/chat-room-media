@@ -76,6 +76,7 @@ const Room = () => {
   }, [messages, files?.length])
 
   const onSubmit = handleSubmit(async (data) => {
+    console.log(data)
     if (!data.text?.trim() && (!data.files || data.files.length == 0)) {
       return
     }
@@ -112,7 +113,10 @@ const Room = () => {
   }
   return (
     <div className=''>
-      <div id='chat_container' className='chat_container'>
+      <div
+        id='chat_container'
+        className='chat_container scroll-chat-ruler overscroll-auto'
+      >
         <div id='chat_display' className='chat_display'>
           {messages.map((message, index) => (
             <div key={index}>

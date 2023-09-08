@@ -7,7 +7,7 @@ import MyRooms from './MyRooms'
 const Manager = () => {
   const modalRef = useRef<IModalHandles>(null)
   return (
-    <div className='w-full'>
+    <div className='flex h-full w-full flex-col'>
       <div className='flex w-full items-center justify-between pb-3'>
         <button
           onClick={() => modalRef.current?.openModal()}
@@ -24,12 +24,11 @@ const Manager = () => {
           }}
         />
       </Modal>
-      <div>
-        <div className='text-md mt-4 mb-2 flex justify-between font-bold uppercase'>
-          <label className='text-greyLabelCt'>List My owner room</label>
-        </div>
-        <MyRooms />
+
+      <div className='text-md mt-4 mb-2 flex justify-between font-bold uppercase'>
+        <label className='text-greyLabelCt'>List My owner room</label>
       </div>
+      <MyRooms />
     </div>
   )
 }
