@@ -20,7 +20,6 @@ const MenuItem: FC<IMenuItemProps> = (props) => {
     )
     return indexSidebarActive === index
   }
-  console.log(isActive)
 
   return (
     <div

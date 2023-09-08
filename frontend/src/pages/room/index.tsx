@@ -76,7 +76,6 @@ const Room = () => {
   }, [messages, files?.length])
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data)
     if (!data.text?.trim() && (!data.files || data.files.length == 0)) {
       return
     }

@@ -29,8 +29,6 @@ export const initialSocketAction = (userPayload: IUserPayload) => {
           dispatch(receiveMessage(data))
         })
         socket.on(keySocket.callFromRoom, (data) => {
-          console.log('get from socket store')
-          console.log(data)
           dispatch(createCall(data))
         })
       })

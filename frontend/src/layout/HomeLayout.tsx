@@ -14,7 +14,7 @@ const HomeLayout = () => {
     dispatch(initialData())
     // peerService.initPeerInstance()
   }, [])
-  console.log(!!call?.calling)
+
   return (
     <div>
       <div className='flex min-h-screen bg-[#313338] '>

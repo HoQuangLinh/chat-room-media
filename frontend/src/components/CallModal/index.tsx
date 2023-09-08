@@ -26,6 +26,7 @@ const CallModal = (props: ICallModalProps) => {
   const rootSelector = useRootSelector((item) => item)
   const { call, user } = rootSelector!
   const { calling } = call!
+  const [isShowMyCamera, setIsShowMyCamera] = useState(true)
 
   useEffect(() => {
     if (user.userId === calling?.sender) {
@@ -41,17 +42,22 @@ const CallModal = (props: ICallModalProps) => {
   useEffect(() => {
     peer &&
       peer.on('call', (newCall) => {
-        console.log('2')
         openStream(!calling?.isVideo).then((stream) => {
           newCall.answer(stream)
           newCall.on('stream', function (remoteStream) {
-            setRemoteStreams((item) => [
-              ...item,
-              { stream: remoteStream, username: 'Hello' }
-            ])
+            const userRemotes = [
+              ...remoteStreams,
+              {
+                stream: remoteStream,
+                username: newCall.metadata
+              }
+            ].filter((user, index, self) => {
+              return (
+                self.findIndex((u) => u.username === user.username) === index
+              )
+            })
+            setRemoteStreams([...userRemotes])
           })
-          console.log('123')
-          setIsAnswer(true)
         })
       })
     return () => {
@@ -69,20 +75,34 @@ const CallModal = (props: ICallModalProps) => {
     }
 
     openStream(calling.isVideo).then((stream) => {
-      if (peer && calling.peerId) {
-        //get list peers of users
-        console.log('test render')
-        const newCall = peer.call(calling.peerId, stream)
-        newCall.on('stream', function (remoteStream) {
-          console.log('test stream')
-          setRemoteStreams((item) => [
-            ...item,
-            {
-              stream: remoteStream,
-              username: 'Linh'
-            }
-          ])
-        })
+      setMyStreams({
+        stream: stream,
+        username: user.username
+      })
+      if (peer && calling.peerInfos) {
+        const myPeerId = peerService.getPeerInstance()?.id
+        calling.peerInfos
+          .filter((peer) => peer.peerId !== myPeerId)
+          .forEach((item) => {
+            const newCall = peer.call(item.peerId, stream, {
+              metadata: user.username
+            })
+
+            newCall.on('stream', function (remoteStream) {
+              const userRemotes = [
+                ...remoteStreams,
+                {
+                  stream: remoteStream,
+                  username: item.username
+                }
+              ].filter((user, index, self) => {
+                return (
+                  self.findIndex((u) => u.username === user.username) === index
+                )
+              })
+              setRemoteStreams(userRemotes)
+            })
+          })
       }
     })
 
@@ -117,15 +137,33 @@ const CallModal = (props: ICallModalProps) => {
             key={-1}
             className='relative h-[300px] w-1/2 max-w-[400px] flex-1 rounded-lg bg-[#1e1f22db]  text-whiteCt'
           >
-            <div className='absolute top-0 bottom-0 left-0 right-0 flex flex-col items-center justify-center'>
+            <div
+              className={
+                isShowMyCamera
+                  ? 'absolute top-4 left-4 flex items-center gap-2'
+                  : `absolute top-0 bottom-0 left-0 right-0 flex flex-col items-center justify-center`
+              }
+            >
               {myStream?.username && (
-                <Avatar size='100' name={myStream.username} />
+                <Avatar
+                  textSizeRatio={isShowMyCamera ? 2 : 1.5}
+                  size={isShowMyCamera ? '60' : '100'}
+                  name={myStream.username}
+                />
               )}
               {myStream?.username && (
-                <p className='py-2'>{myStream.username}</p>
+                <p className='py-2 text-xl'>{myStream.username}</p>
               )}
             </div>
-            {myStream?.stream && <Video stream={myStream.stream} />}
+            {myStream?.stream && (
+              <Video
+                isShowCameraButton
+                onToggleCameraButton={(data) => {
+                  setIsShowMyCamera(data)
+                }}
+                stream={myStream.stream}
+              />
+            )}
           </div>
         )}
         {remoteStreams.map((userStream, index) => {
@@ -149,7 +187,7 @@ const CallModal = (props: ICallModalProps) => {
       </div>
     )
   }
-  console.log({ myStream, remoteStreams })
+
   return (
     <Modal
       isOpen={isOpen}
@@ -161,7 +199,7 @@ const CallModal = (props: ICallModalProps) => {
       disableCloseClickOutside
     >
       {!isAnswer && user.userId !== calling?.sender && renderModalCalling()}
-      {renderModalCall()}
+      {(isAnswer || user.userId === calling?.sender) && renderModalCall()}
     </Modal>
   )
 }
